@@ -203,7 +203,8 @@ class TestSocialPublisherLinkedin(TransactionCase):
 
     def test_sync_metrics(self):
         post = self._draft()
-        post._internal_write({"state": "published", "external_id": "urn:li:share:42"})
+        post._internal_write({"state": "published", "external_id": "urn:li:share:42",
+                              "published_at": fields.Datetime.now()})
         self.account.write({
             "linkedin_metrics_access_token": "mtok",
             "metrics_expires_at": fields.Datetime.now() + timedelta(days=60),
@@ -245,12 +246,12 @@ class TestSocialPublisherLinkedin(TransactionCase):
         token = _response(200, {"access_token": "otok", "expires_in": 5184000,
                                 "scope": "rw_organization_admin,w_organization_social"})
         acls = _response(200, {"elements": [{"organization": "urn:li:organization:777"}]})
-        orgs = _response(200, {"results": {"777": {"localizedName": "Example Corp",
-                                                   "vanityName": "example-corp"}}})
+        orgs = _response(200, {"localizedName": "Example Corp", "vanityName": "example-corp"})
         with patch(f"{MODULE}.requests.post", return_value=token), \
                 patch(f"{MODULE}.requests.request", side_effect=[acls, orgs]) as call:
             account._linkedin_finish_connect(account.sudo().linkedin_oauth_state, "code")
-        self.assertIn("List(777)", call.call_args_list[1].args[1])
+        self.assertTrue(call.call_args_list[1].args[1].endswith("/rest/organizations/777"),
+                        "one call per page: BATCH_GET is not allowed on the Development tier")
         self.assertEqual(account.linkedin_page_id.name, "Example Corp")
         self.assertEqual(account.linkedin_page_id.urn, "urn:li:organization:777")
         self.assertEqual(account.connection_state, "connected")
@@ -304,8 +305,9 @@ class TestSocialPublisherLinkedin(TransactionCase):
     def test_organization_metrics(self):
         account = self._connected_organization()
         post = self._draft(account_id=account.id)
-        post._internal_write({"state": "published", "external_id": "urn:li:share:99"})
-        stats = _response(200, {"elements": [{"totalShareStatistics": {
+        post._internal_write({"state": "published", "external_id": "urn:li:share:99",
+                              "published_at": fields.Datetime.now()})
+        stats = _response(200, {"elements": [{"share": "urn:li:share:99", "totalShareStatistics": {
             "impressionCount": 50, "uniqueImpressionsCount": 30, "likeCount": 4,
             "commentCount": 1, "shareCount": 2, "clickCount": 3}}]})
         with self._no_commit(), patch(f"{MODULE}.requests.request", return_value=stats) as call:
@@ -315,6 +317,26 @@ class TestSocialPublisherLinkedin(TransactionCase):
         urls = [c.args[1] for c in call.call_args_list]
         self.assertTrue(any("shares=List(urn%3Ali%3Ashare%3A99)" in u for u in urls))
         self.assertTrue(any("timeGranularityType:DAY" in u for u in urls))
+
+    def test_metrics_window_and_refresh(self):
+        self.account.write({
+            "linkedin_metrics_access_token": "mtok",
+            "metrics_expires_at": fields.Datetime.now() + timedelta(days=60),
+        })
+        recent, old = self._draft(), self._draft()
+        recent._internal_write({"state": "published", "external_id": "urn:li:share:1",
+                                "published_at": fields.Datetime.now() - timedelta(days=3)})
+        old._internal_write({"state": "published", "external_id": "urn:li:share:2",
+                             "published_at": fields.Datetime.now() - timedelta(days=40)})
+        counted = _response(200, {"elements": [{"count": 5}]})
+        with self._no_commit(), patch(f"{MODULE}.requests.request", return_value=counted):
+            self.env["social.publisher.account"]._cron_sync_metrics()
+        self.assertEqual(recent.impressions, 5)
+        self.assertEqual(old.impressions, 0, "outside the 14-day window")
+        with patch(f"{MODULE}.requests.request", return_value=counted) as call:
+            old.with_user(self.writer).action_refresh_metrics()
+        self.assertEqual(old.impressions, 5)
+        self.assertTrue(all("share%3A2" in c.args[1] for c in call.call_args_list))
 
     def test_from_little_text(self):
         self.assertEqual(from_little_text(to_little_text("Veja (isso) #Odoo e C#")),

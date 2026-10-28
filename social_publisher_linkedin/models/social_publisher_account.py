@@ -30,6 +30,9 @@ ORGANIZATION_SCOPES = (
 POST_MAX_CHARS = 3000
 TIMEOUT = 30
 IMPORT_PAGE_SIZE = 100
+# Posts per organizationalEntityShareStatistics call (a finder with a list
+# parameter, allowed on the Development tier, unlike BATCH_GET).
+STATS_BATCH_SIZE = 20
 
 # memberCreatorPostAnalytics metric -> provider-neutral key (social_publisher METRIC_FIELDS)
 MEMBER_METRICS = {
@@ -315,13 +318,13 @@ class SocialPublisherAccount(models.Model):
             token=token,
         ).payload.get("elements", [])
         urns = sorted({acl["organization"] for acl in acls if acl.get("organization")})
-        names = {}
-        if urns:
-            ids = ",".join(urn.rsplit(":", 1)[1] for urn in urns)
-            results = self._linkedin_request(
-                "GET", f"/rest/organizations?ids=List({ids})", token=token,
-            ).payload.get("results", {})
-            names = {f"urn:li:organization:{key}": value for key, value in results.items()}
+        # One call per page: the Development tier forbids BATCH_GET (ids=List(...)).
+        names = {
+            urn: self._linkedin_request(
+                "GET", f"/rest/organizations/{urn.rsplit(':', 1)[1]}", token=token
+            ).payload
+            for urn in urns
+        }
         Page = self.env["social.publisher.linkedin.page"].sudo()
         existing = {page.urn: page for page in self.sudo().linkedin_page_ids}
         for urn in urns:
@@ -469,6 +472,33 @@ class SocialPublisherAccount(models.Model):
         if self._linkedin_is_organization():
             return self._linkedin_fetch_organization_metrics(token, post=post, days=days)
         return self._linkedin_fetch_member_metrics(token, post=post, days=days)
+
+    def _linkedin_fetch_metrics_batch(self, posts):
+        """Company pages read many posts per call; profiles go post by post (None)."""
+        self.ensure_one()
+        if not self._linkedin_is_organization():
+            return None
+        token = self._linkedin_metrics_token()
+        base = ("/rest/organizationalEntityShareStatistics?q=organizationalEntity"
+                "&organizationalEntity=" + urllib.parse.quote(self._linkedin_author_urn(), safe=""))
+        by_urn = {post.external_id: post.id for post in posts}
+        result = {post.id: dict.fromkeys(ORGANIZATION_METRICS.values(), 0) for post in posts}
+        for param, key in (("shares", "share"), ("ugcPosts", "ugcPost")):
+            urns = [urn for urn in by_urn if (":share:" in urn) == (param == "shares")]
+            for start in range(0, len(urns), STATS_BATCH_SIZE):
+                chunk = ",".join(urllib.parse.quote(u, safe="")
+                                 for u in urns[start:start + STATS_BATCH_SIZE])
+                elements = self._linkedin_request(
+                    "GET", f"{base}&{param}=List({chunk})", token=token,
+                ).payload.get("elements", [])
+                for element in elements:
+                    post_id = by_urn.get(element.get(key))
+                    if not post_id:
+                        continue
+                    stats = element.get("totalShareStatistics", {})
+                    for source, target in ORGANIZATION_METRICS.items():
+                        result[post_id][target] += stats.get(source, 0)
+        return result
 
     def _linkedin_fetch_member_metrics(self, token, post=None, days=None):
         if post:

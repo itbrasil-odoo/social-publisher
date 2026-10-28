@@ -34,6 +34,14 @@ product, hence the second app. A personal profile's past posts cannot be
 listed through the API (`r_member_social` is restricted); a company page's can
 (**Import Posts** on the account).
 
+On the Community Management API **Development tier** LinkedIn allows 500 calls
+per app and 100 per member a day, and no BATCH_GET. The module stays within
+that: pages are looked up one by one, company page statistics are read in
+batches, and the daily sync only refreshes posts published in the account's
+metrics window (14 days by default; **Refresh Metrics** on a post updates an
+older one). A profile's post costs 10 calls (one per metric), so keep the
+window short until the app reaches the Standard tier.
+
 Access tokens last about 60 days and are not refreshed; the responsible user
 gets a to-do a week before they expire.
 
