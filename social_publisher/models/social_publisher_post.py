@@ -220,6 +220,13 @@ class SocialPublisherPost(models.Model):
             raise UserError(_("Only approved posts can be published."))
         self._publish()
 
+    def action_refresh_metrics(self):
+        posts = self.filtered(lambda p: p.state == "published" and p.external_id)
+        for account in posts.account_id:
+            if not account._can_fetch_metrics():
+                raise UserError(_("Connect the metrics access of %s first.", account.name))
+            account._store_post_metrics(posts.filtered(lambda p: p.account_id == account))
+
     def action_open_external(self):
         self.ensure_one()
         return {"type": "ir.actions.act_url", "url": self.external_url, "target": "new"}

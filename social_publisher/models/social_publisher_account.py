@@ -54,6 +54,13 @@ class SocialPublisherAccount(models.Model):
         ],
         compute="_compute_connection_state",
     )
+    metrics_window_days = fields.Integer(
+        string="Metrics Window (days)",
+        default=14,
+        help="The daily sync refreshes the posts published in this many days; older posts "
+        "keep their last numbers (use Refresh Metrics on a post to update it). Networks limit "
+        "API calls per day, and a post's numbers settle after a week or two. 0 = all posts.",
+    )
     max_length = fields.Integer(compute="_compute_max_length")
     can_import_posts = fields.Boolean(compute="_compute_can_import_posts")
     post_ids = fields.One2many("social.publisher.post", "account_id")
@@ -138,8 +145,42 @@ class SocialPublisherAccount(models.Model):
 
     # --- metrics -----------------------------------------------------------
 
+    def _metrics_posts(self):
+        """Published posts the daily sync refreshes (see metrics_window_days)."""
+        self.ensure_one()
+        posts = self.post_ids.filtered(lambda p: p.state == "published" and p.external_id)
+        if self.metrics_window_days > 0:
+            since = fields.Datetime.now() - timedelta(days=self.metrics_window_days)
+            posts = posts.filtered(lambda p: p.published_at and p.published_at >= since)
+        return posts
+
+    def _fetch_posts_metrics(self, posts):
+        """Return {post id: metrics dict}, in one call when the provider can batch."""
+        self.ensure_one()
+        batch = getattr(self, f"_{self.provider}_fetch_metrics_batch", None)
+        result = batch(posts) if batch else None
+        if result is None:
+            result = {post.id: self._fetch_metrics(post=post) for post in posts}
+        return result
+
+    def _store_post_metrics(self, posts, now=None):
+        self.ensure_one()
+        Metric = self.env["social.publisher.metric"].sudo()  # system data, writers may refresh
+        now = now or fields.Datetime.now()
+        for post_id, data in self._fetch_posts_metrics(posts).items():
+            post = posts.browse(post_id)
+            values = Metric._metric_values(data)
+            Metric.create({
+                "scope": "post",
+                "account_id": self.id,
+                "post_id": post.id,
+                "date": now,
+                **values,
+            })
+            post.write({**values, "metrics_updated_at": now})
+
     def _sync_metrics(self):
-        """Snapshot the account and every published post into metrics."""
+        """Snapshot the account and its recent published posts into metrics."""
         Metric = self.env["social.publisher.metric"]
         now = fields.Datetime.now()
         for account in self:
@@ -151,17 +192,7 @@ class SocialPublisherAccount(models.Model):
                 "period_days": ACCOUNT_METRICS_DAYS,
                 **Metric._metric_values(data),
             })
-            posts = account.post_ids.filtered(lambda p: p.state == "published" and p.external_id)
-            for post in posts:
-                values = Metric._metric_values(account._fetch_metrics(post=post))
-                Metric.create({
-                    "scope": "post",
-                    "account_id": account.id,
-                    "post_id": post.id,
-                    "date": now,
-                    **values,
-                })
-                post.write({**values, "metrics_updated_at": now})
+            account._store_post_metrics(account._metrics_posts(), now=now)
 
     def action_sync_metrics(self):
         if not all(self.mapped(lambda a: a._can_fetch_metrics())):

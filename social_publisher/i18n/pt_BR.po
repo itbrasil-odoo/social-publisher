@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 20:39+0000\n"
-"PO-Revision-Date: 2026-10-28 20:39+0000\n"
+"POT-Creation-Date: 2026-10-28 22:19+0000\n"
+"PO-Revision-Date: 2026-10-28 22:19+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -220,6 +220,12 @@ msgstr "Conectar"
 #: code:addons/social_publisher/models/social_publisher_post.py:0
 msgid "Connect the account %s first."
 msgstr "Conecte a conta %s primeiro."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "Connect the metrics access of %s first."
+msgstr "Conecte primeiro o acesso a métricas de %s."
 
 #. module: social_publisher
 #. odoo-python
@@ -530,6 +536,11 @@ msgid "Metrics Updated At"
 msgstr "Métricas atualizadas em"
 
 #. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__metrics_window_days
+msgid "Metrics Window (days)"
+msgstr "Janela de métricas (dias)"
+
+#. module: social_publisher
 #: model_terms:ir.actions.act_window,help:social_publisher.social_publisher_metric_action
 msgid ""
 "Metrics are collected daily from accounts connected with metrics access."
@@ -772,6 +783,11 @@ msgid "Reference"
 msgstr "Referência"
 
 #. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+msgid "Refresh Metrics"
+msgstr "Atualizar métricas"
+
+#. module: social_publisher
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__locked_first_line
 msgid "Required Opening"
 msgstr "Abertura obrigatória"
@@ -947,6 +963,15 @@ msgstr "Texto exatamente como deve aparecer na rede."
 #: code:addons/social_publisher/models/social_publisher_account.py:0
 msgid "The %(provider)s provider does not support '%(hook)s'."
 msgstr "A rede %(provider)s não suporta '%(hook)s'."
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__metrics_window_days
+msgid ""
+"The daily sync refreshes the posts published in this many days; older posts "
+"keep their last numbers (use Refresh Metrics on a post to update it). "
+"Networks limit API calls per day, and a post's numbers settle after a week "
+"or two. 0 = all posts."
+msgstr "A sincronização diária atualiza os posts publicados nesse número de dias; os mais antigos mantêm os últimos números (use Atualizar métricas no post para atualizá-lo). As redes limitam as chamadas de API por dia, e os números de um post se estabilizam depois de uma ou duas semanas. 0 = todos os posts."
 
 #. module: social_publisher
 #. odoo-python

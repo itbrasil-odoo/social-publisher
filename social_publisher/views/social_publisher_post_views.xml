@@ -13,6 +13,8 @@
                             class="btn-primary" invisible="state != 'approved'"
                             groups="social_publisher.group_social_publisher_manager"
                             confirm="Publish this post now?"/>
+                    <button name="action_refresh_metrics" type="object" string="Refresh Metrics"
+                            invisible="state != 'published'"/>
                     <button name="action_reset_draft" type="object" string="Back to Draft"
                             invisible="state not in ('approved', 'failed')"/>
                     <field name="state" widget="statusbar"

@@ -37,6 +37,7 @@
                         <group>
                             <field name="token_expires_at"/>
                             <field name="metrics_expires_at"/>
+                            <field name="metrics_window_days"/>
                             <field name="color" widget="color_picker"/>
                         </group>
                     </group>
