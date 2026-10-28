@@ -26,6 +26,7 @@ to the **Auth** tab of each app.
 |---|---|---|
 | Personal profile | *Share on LinkedIn* + *Sign In with OpenID Connect* | `openid profile w_member_social` |
 | Personal profile metrics | second app with *Community Management API* | `r_member_postAnalytics` |
+| Personal profile, single app | only the *Community Management API* app, when it also has `w_member_social` and `r_basicprofile` | `r_basicprofile w_member_social r_member_postAnalytics` |
 | Company page | the *Community Management API* app only | `rw_organization_admin w_organization_social r_organization_social r_organization_followers` |
 
 LinkedIn only grants the Community Management API to an app with no other

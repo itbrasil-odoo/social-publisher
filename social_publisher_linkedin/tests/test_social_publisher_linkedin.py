@@ -172,6 +172,33 @@ class TestSocialPublisherLinkedin(TransactionCase):
         self.assertEqual(self.account.connection_state, "connected")
         self.assertFalse(self.account.linkedin_oauth_state, "a state is single-use")
 
+    def test_single_app_member(self):
+        account = self.env["social.publisher.account"].create({
+            "name": "Solo",
+            "provider": "linkedin",
+            "linkedin_metrics_client_id": "cm_id",
+            "linkedin_metrics_client_secret": "cm_secret",
+        }).with_user(self.manager)
+        self.assertTrue(account.linkedin_single_app)
+        self.assertFalse(self.account.linkedin_single_app, "two-app profiles keep working")
+        url = account.action_connect()["url"]
+        self.assertIn("client_id=cm_id", url)
+        self.assertIn("scope=r_basicprofile+w_member_social+r_member_postAnalytics", url)
+        token = _response(200, {"access_token": "one", "expires_in": 5184000,
+                                "scope": "r_basicprofile,w_member_social,r_member_postAnalytics"})
+        me = _response(200, {"id": "p42", "localizedFirstName": "Jane",
+                             "localizedLastName": "Doe"})
+        with patch(f"{MODULE}.requests.post", return_value=token) as post, \
+                patch(f"{MODULE}.requests.request", return_value=me) as call:
+            account._linkedin_finish_connect(account.sudo().linkedin_oauth_state, "code")
+        self.assertEqual(post.call_args.kwargs["data"]["client_id"], "cm_id")
+        self.assertTrue(call.call_args.args[1].endswith("/v2/me"))
+        self.assertEqual((account.linkedin_member_id, account.linkedin_member_name),
+                         ("p42", "Jane Doe"))
+        self.assertEqual(account.sudo().linkedin_metrics_access_token, "one")
+        self.assertTrue(account._can_fetch_metrics())
+        self.assertEqual(account._linkedin_author_urn(), "urn:li:person:p42")
+
     # --- metrics -----------------------------------------------------------
 
     def test_sync_metrics(self):

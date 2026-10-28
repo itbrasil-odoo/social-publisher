@@ -20,6 +20,9 @@ PUBLISH_SCOPES = "openid profile w_member_social"
 # LinkedIn only grants the Community Management API to an app with no other
 # product, so profile metrics usually come from a second app with its own token.
 METRICS_SCOPE = "r_member_postAnalytics"
+# A Community Management app that also holds w_member_social and r_basicprofile
+# can run a personal profile on its own: one connection publishes and reads metrics.
+SINGLE_APP_MEMBER_SCOPES = f"r_basicprofile w_member_social {METRICS_SCOPE}"
 # Company pages live entirely on the Community Management API app.
 ORGANIZATION_SCOPES = (
     "rw_organization_admin w_organization_social r_organization_social r_organization_followers"
@@ -126,6 +129,12 @@ class SocialPublisherAccount(models.Model):
         compute="_compute_linkedin_redirect_uri",
         help="Add this URL to 'Authorized redirect URLs' in the Auth tab of each LinkedIn app.",
     )
+    linkedin_single_app = fields.Boolean(
+        string="Single App",
+        compute="_compute_linkedin_single_app",
+        help="Personal profile run by the Community Management API app alone: fill in only "
+        "that app and the profile connects once for publishing and metrics.",
+    )
     linkedin_member_id = fields.Char(string="Member ID", readonly=True, copy=False)
     linkedin_member_name = fields.Char(string="Connected As", readonly=True, copy=False)
     linkedin_page_ids = fields.One2many(
@@ -148,6 +157,16 @@ class SocialPublisherAccount(models.Model):
         url = self.get_base_url() + CALLBACK_PATH
         for account in self:
             account.linkedin_redirect_uri = url
+
+    @api.depends("linkedin_account_type", "linkedin_client_id", "linkedin_metrics_client_id")
+    def _compute_linkedin_single_app(self):
+        for account in self:
+            app = account.sudo()
+            account.linkedin_single_app = bool(
+                account.linkedin_account_type == "member"
+                and app.linkedin_metrics_client_id
+                and not app.linkedin_client_id
+            )
 
     @api.constrains("linkedin_page_id")
     def _check_linkedin_page(self):
@@ -173,7 +192,7 @@ class SocialPublisherAccount(models.Model):
     def _linkedin_app(self, kind):
         self.ensure_one()
         account = self.sudo()
-        if kind in ("metrics", "organization") and account.linkedin_metrics_client_id:
+        if kind in ("metrics", "organization", "member") and account.linkedin_metrics_client_id:
             return account.linkedin_metrics_client_id, account.linkedin_metrics_client_secret
         return account.linkedin_client_id, account.linkedin_client_secret
 
@@ -186,6 +205,8 @@ class SocialPublisherAccount(models.Model):
         self.sudo().linkedin_oauth_state = state
         if kind == "organization":
             scope = ORGANIZATION_SCOPES
+        elif kind == "member":
+            scope = SINGLE_APP_MEMBER_SCOPES
         elif kind == "metrics" and self.sudo().linkedin_metrics_client_id:
             scope = METRICS_SCOPE
         elif kind == "metrics":
@@ -201,7 +222,12 @@ class SocialPublisherAccount(models.Model):
         })
 
     def _linkedin_action_connect(self):
-        kind = "organization" if self._linkedin_is_organization() else "publish"
+        if self._linkedin_is_organization():
+            kind = "organization"
+        elif self.linkedin_single_app:
+            kind = "member"
+        else:
+            kind = "publish"
         return {"type": "ir.actions.act_url", "url": self._linkedin_authorize_url(kind),
                 "target": "self"}
 
@@ -253,14 +279,13 @@ class SocialPublisherAccount(models.Model):
                 **metrics_vals,
             })
         else:
-            info = self._linkedin_request("GET", "/v2/userinfo", token=token["access_token"],
-                                          versioned=False).payload
+            member_id, member_name = self._linkedin_identify_member(token["access_token"], kind)
             vals.update({
                 "linkedin_access_token": token["access_token"],
                 "linkedin_scopes": scopes,
                 "token_expires_at": expires_at,
-                "linkedin_member_id": info["sub"],
-                "linkedin_member_name": info.get("name"),
+                "linkedin_member_id": member_id,
+                "linkedin_member_name": member_name,
             })
             # One app holding both products: the same token reads metrics.
             if METRICS_SCOPE in scopes.split():
@@ -270,6 +295,17 @@ class SocialPublisherAccount(models.Model):
             self._linkedin_sync_pages(token["access_token"])
         self.message_post(body=_("LinkedIn %(kind)s access connected; valid until %(date)s.",
                                  kind=kind, date=fields.Datetime.to_string(expires_at)))
+
+    def _linkedin_identify_member(self, token, kind):
+        """Return (member id, name) of the member who authorized ``token``."""
+        if kind == "member":
+            # The Community Management app has no OpenID product: read the basic profile.
+            me = self._linkedin_request("GET", "/v2/me", token=token, versioned=False).payload
+            name = " ".join(filter(None, (me.get("localizedFirstName"),
+                                          me.get("localizedLastName"))))
+            return me["id"], name
+        info = self._linkedin_request("GET", "/v2/userinfo", token=token, versioned=False).payload
+        return info["sub"], info.get("name")
 
     def _linkedin_sync_pages(self, token):
         """List the company pages the connected member administers."""

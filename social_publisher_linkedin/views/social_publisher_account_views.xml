@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_sync_metrics']" position="before">
                 <button name="action_linkedin_connect_metrics" type="object" string="Connect Metrics"
-                        invisible="provider != 'linkedin' or linkedin_account_type != 'member' or connection_state == 'disconnected'"
+                        invisible="provider != 'linkedin' or linkedin_account_type != 'member' or linkedin_single_app or connection_state == 'disconnected'"
                         groups="base.group_system"/>
             </xpath>
             <xpath expr="//field[@name='provider']" position="after">
@@ -29,6 +29,8 @@
                         <b>Share on LinkedIn</b> and <b>Sign In with LinkedIn using OpenID Connect</b>;
                         its metrics need the <b>Community Management API</b>, which LinkedIn only grants
                         to an app with no other product, so use a second app for it.
+                        If your Community Management API app also has <i>w_member_social</i> and
+                        <i>r_basicprofile</i>, fill in only that app: the profile then connects once.
                         A <b>company page</b> uses the Community Management API app for everything.
                         Add the redirect URL below to the Auth tab of every app you use.
                     </div>
@@ -46,6 +48,7 @@
                         <group string="Connection">
                             <field name="linkedin_redirect_uri" widget="CopyClipboardChar"/>
                             <field name="linkedin_api_version"/>
+                            <field name="linkedin_single_app" invisible="linkedin_account_type == 'organization'"/>
                             <field name="linkedin_member_id" invisible="linkedin_account_type == 'organization'"/>
                             <field name="linkedin_scopes"/>
                             <field name="linkedin_metrics_scopes" invisible="linkedin_account_type == 'organization'"/>

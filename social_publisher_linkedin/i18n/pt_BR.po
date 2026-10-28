@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 20:39+0000\n"
-"PO-Revision-Date: 2026-10-28 20:39+0000\n"
+"POT-Creation-Date: 2026-10-28 22:02+0000\n"
+"PO-Revision-Date: 2026-10-28 22:02+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,8 @@ msgid ""
 "                        <b>Share on LinkedIn</b> and <b>Sign In with LinkedIn using OpenID Connect</b>;\n"
 "                        its metrics need the <b>Community Management API</b>, which LinkedIn only grants\n"
 "                        to an app with no other product, so use a second app for it.\n"
+"                        If your Community Management API app also has <i>w_member_social</i> and\n"
+"                        <i>r_basicprofile</i>, fill in only that app: the profile then connects once.\n"
 "                        A <b>company page</b> uses the Community Management API app for everything.\n"
 "                        Add the redirect URL below to the Auth tab of every app you use."
 msgstr ""
@@ -29,6 +31,8 @@ msgstr ""
 "                        <b>Share on LinkedIn</b> e <b>Sign In with LinkedIn using OpenID Connect</b>;\n"
 "                        as métricas dele precisam da <b>Community Management API</b>, que o LinkedIn só libera\n"
 "                        para um app sem nenhum outro produto, então use um segundo app para ela.\n"
+"                        Se o seu app da Community Management API também tiver <i>w_member_social</i> e\n"
+"                        <i>r_basicprofile</i>, preencha só esse app: o perfil passa a conectar uma vez só.\n"
 "                        Uma <b>página de empresa</b> usa o app da Community Management API para tudo.\n"
 "                        Adicione a URL de redirecionamento abaixo na aba Auth de cada app que usar."
 
@@ -298,6 +302,13 @@ msgid "Personal Profile"
 msgstr "Perfil pessoal"
 
 #. module: social_publisher_linkedin
+#: model:ir.model.fields,help:social_publisher_linkedin.field_social_publisher_account__linkedin_single_app
+msgid ""
+"Personal profile run by the Community Management API app alone: fill in only"
+" that app and the profile connects once for publishing and metrics."
+msgstr "Perfil pessoal operado só pelo app da Community Management API: preencha apenas esse app e o perfil conecta uma vez para publicar e ler métricas."
+
+#. module: social_publisher_linkedin
 #. odoo-python
 #: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
 msgid "Pick one of the pages listed for this account."
@@ -317,6 +328,11 @@ msgstr "App de publicação"
 #: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_redirect_uri
 msgid "Redirect URL"
 msgstr "URL de redirecionamento"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_single_app
+msgid "Single App"
+msgstr "App único"
 
 #. module: social_publisher_linkedin
 #: model:ir.model,name:social_publisher_linkedin.model_social_publisher_account
