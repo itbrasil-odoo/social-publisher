@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_social_publisher_post_user,social.publisher.post user,model_social_publisher_post,group_social_publisher_user,1,1,1,1
+access_social_publisher_account_user,social.publisher.account user,model_social_publisher_account,group_social_publisher_user,1,0,0,0
+access_social_publisher_account_manager,social.publisher.account manager,model_social_publisher_account,group_social_publisher_manager,1,1,1,1
+access_social_publisher_metric_user,social.publisher.metric user,model_social_publisher_metric,group_social_publisher_user,1,0,0,0
+access_social_publisher_metric_manager,social.publisher.metric manager,model_social_publisher_metric,group_social_publisher_manager,1,1,1,1
+access_social_publisher_tag_user,social.publisher.tag user,model_social_publisher_tag,group_social_publisher_user,1,1,1,0
+access_social_publisher_tag_manager,social.publisher.tag manager,model_social_publisher_tag,group_social_publisher_manager,1,1,1,1

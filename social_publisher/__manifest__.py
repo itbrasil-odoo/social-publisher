@@ -1,0 +1,24 @@
+{
+    "name": "Social Publisher",
+    "version": "19.0.1.1.0",
+    "category": "Marketing/Social Marketing",
+    "summary": "Plan, approve, schedule and measure social media posts",
+    "license": "LGPL-3",
+    "author": "Renan Teixeira",
+    "website": "https://github.com/renanteixeira/social-publisher",
+    "depends": [
+        "mail",
+    ],
+    "data": [
+        "security/social_publisher_security.xml",
+        "security/ir.model.access.csv",
+        "data/ir_cron_data.xml",
+        "views/social_publisher_post_views.xml",
+        "views/social_publisher_metric_views.xml",
+        "views/social_publisher_account_views.xml",
+        "views/social_publisher_tag_views.xml",
+        "views/social_publisher_menus.xml",
+    ],
+    "installable": True,
+    "application": True,
+}

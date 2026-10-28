@@ -1,0 +1,1042 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* social_publisher
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-28 20:39+0000\n"
+"PO-Revision-Date: 2026-10-28 20:39+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_account.py:0
+msgid "%s posts imported from the network."
+msgstr "%s posts importados da rede."
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_kanban
+msgid "<i class=\"fa fa-calendar\" title=\"Date\"/>"
+msgstr "<i class=\"fa fa-calendar\" title=\"Data\"/>"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_kanban
+msgid "<i class=\"fa fa-eye\" title=\"Impressions\"/>"
+msgstr "<i class=\"fa fa-eye\" title=\"Impressões\"/>"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_kanban
+msgid "<i class=\"fa fa-thumbs-up ms-2\" title=\"Reactions\"/>"
+msgstr "<i class=\"fa fa-thumbs-up ms-2\" title=\"Reações\"/>"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "A published post can no longer be changed on the network from here."
+msgstr "Um post publicado não pode mais ser alterado na rede a partir daqui."
+
+#. module: social_publisher
+#: model:ir.model.constraint,message:social_publisher.constraint_social_publisher_tag_name_uniq
+msgid "A tag with this name already exists."
+msgstr "Já existe um marcador com esse nome."
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__token_expires_at
+msgid "Access Expires"
+msgstr "Acesso expira em"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_account.py:0
+msgid "Access for %s expires in less than %s days."
+msgstr "O acesso de %s expira em menos de %s dias."
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__account_id
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__account_id
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_metric__scope__account
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_form
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Account"
+msgstr "Conta"
+
+#. module: social_publisher
+#: model:ir.actions.act_window,name:social_publisher.social_publisher_metric_action
+msgid "Account Metrics"
+msgstr "Métricas da conta"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_metric_view_graph
+msgid "Account Reach"
+msgstr "Alcance da conta"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_metric_view_search
+msgid "Account Totals"
+msgstr "Totais da conta"
+
+#. module: social_publisher
+#: model:ir.actions.act_window,name:social_publisher.social_publisher_account_action
+#: model:ir.ui.menu,name:social_publisher.social_publisher_account_menu
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_list
+msgid "Accounts"
+msgstr "Contas"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__message_needaction
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__message_needaction
+msgid "Action Needed"
+msgstr "Ação necessária"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__active
+msgid "Active"
+msgstr "Ativo"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__activity_ids
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__activity_ids
+msgid "Activities"
+msgstr "Atividades"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__activity_exception_decoration
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decoração de exceção de atividade"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__activity_state
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__activity_state
+msgid "Activity State"
+msgstr "Status da atividade"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__activity_type_icon
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ícone do tipo de atividade"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+msgid "Approve"
+msgstr "Aprovar"
+
+#. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_post__state__approved
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Approved"
+msgstr "Aprovado"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__publish_at
+msgid ""
+"Approved posts are published automatically once this time has passed. Leave "
+"empty to publish by hand."
+msgstr "Posts aprovados são publicados automaticamente quando esse horário passa. Deixe vazio para publicar manualmente."
+
+#. module: social_publisher
+#: model:res.groups,comment:social_publisher.group_social_publisher_manager
+msgid "Approves and publishes posts, manages accounts."
+msgstr "Aprova e publica posts, gerencia contas."
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_form
+msgid "Archived"
+msgstr "Arquivado"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__message_attachment_count
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__message_attachment_count
+msgid "Attachment Count"
+msgstr "Contagem de anexos"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+msgid "Back to Draft"
+msgstr "Voltar para rascunho"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__body
+msgid "Body"
+msgstr "Texto"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__calendar_date
+msgid "Calendar Date"
+msgstr "Data no calendário"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__can_import_posts
+msgid "Can Import Posts"
+msgstr "Pode importar posts"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__char_count
+msgid "Characters"
+msgstr "Caracteres"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__color
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__color
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_tag__color
+msgid "Color"
+msgstr "Cor"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__comments
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__comments
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__comments
+msgid "Comments"
+msgstr "Comentários"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__company_id
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__company_id
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__company_id
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Company"
+msgstr "Empresa"
+
+#. module: social_publisher
+#: model:ir.ui.menu,name:social_publisher.social_publisher_config_menu
+msgid "Configuration"
+msgstr "Configuração"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_form
+msgid "Connect"
+msgstr "Conectar"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "Connect the account %s first."
+msgstr "Conecte a conta %s primeiro."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_account.py:0
+msgid "Connect the metrics access of this account first."
+msgstr "Conecte primeiro o acesso a métricas desta conta."
+
+#. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_account__connection_state__connected
+msgid "Connected"
+msgstr "Conectado"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__connection_state
+msgid "Connection State"
+msgstr "Situação da conexão"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "Content changed after approval: back to draft."
+msgstr "Conteúdo alterado depois da aprovação: voltou para rascunho."
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__create_uid
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__create_uid
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__create_uid
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_tag__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__create_date
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__create_date
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__create_date
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_tag__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__date
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_metric_view_search
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_list
+msgid "Date"
+msgstr "Data"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_metric_view_search
+msgid "Day"
+msgstr "Dia"
+
+#. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_account__connection_state__disconnected
+msgid "Disconnected"
+msgstr "Desconectado"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__display_name
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__display_name
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__display_name
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__display_name
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_tag__display_name
+msgid "Display Name"
+msgstr "Nome exibido"
+
+#. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_post__state__draft
+msgid "Draft"
+msgstr "Rascunho"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Drafts"
+msgstr "Rascunhos"
+
+#. module: social_publisher
+#: model_terms:ir.actions.act_window,help:social_publisher.social_publisher_post_action
+msgid ""
+"Drafts are approved by a manager and published automatically at the "
+"scheduled time."
+msgstr "Rascunhos são aprovados por um gerente e publicados automaticamente no horário agendado."
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_list
+msgid "Engagement (%)"
+msgstr "Engajamento (%)"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__engagement_rate
+msgid "Engagement Rate"
+msgstr "Taxa de engajamento"
+
+#. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_account__connection_state__expiring
+msgid "Expiring Soon"
+msgstr "Expira em breve"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__external_id
+msgid "External"
+msgstr "ID externo"
+
+#. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_post__state__failed
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Failed"
+msgstr "Falhou"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__failure_reason
+msgid "Failure Reason"
+msgstr "Motivo da falha"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__message_follower_ids
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__message_partner_ids
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (parceiros)"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__followers_gained
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__followers_gained
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__followers_gained
+msgid "Followers Gained"
+msgstr "Seguidores ganhos"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__activity_type_icon
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ícone Font Awesome, ex.: fa-tasks"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__reference
+msgid "Free reference, such as the kit number or the hook formula used."
+msgstr "Referência livre, como o número do kit ou a fórmula de gancho usada."
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__has_message
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__has_message
+msgid "Has Message"
+msgstr "Tem mensagem"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__id
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__id
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__id
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__id
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_tag__id
+msgid "ID"
+msgstr "ID"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__activity_exception_icon
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__activity_exception_icon
+msgid "Icon"
+msgstr "Ícone"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__activity_exception_icon
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ícone que indica uma atividade de exceção."
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__message_needaction
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Se marcado, novas mensagens exigem sua atenção."
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__message_has_error
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Se marcado, algumas mensagens têm erro de entrega."
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__image
+msgid "Image"
+msgstr "Imagem"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__image_alt
+msgid "Image Description"
+msgstr "Descrição da imagem"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_form
+msgid "Import Posts"
+msgstr "Importar posts"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__impressions
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__impressions
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__impressions
+msgid "Impressions"
+msgstr "Impressões"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__note
+msgid "Internal Notes"
+msgstr "Notas internas"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__message_is_follower
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__message_is_follower
+msgid "Is Follower"
+msgstr "É seguidor"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__lang
+msgid "Language"
+msgstr "Idioma"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__write_uid
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__write_uid
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__write_uid
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_tag__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__write_date
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__write_date
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__write_date
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_tag__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__company_id
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_metric__company_id
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__company_id
+msgid ""
+"Leave empty to share the account (for example a personal profile) with every"
+" company."
+msgstr "Deixe vazio para compartilhar a conta (por exemplo, um perfil pessoal) com todas as empresas."
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__external_url
+msgid "Link"
+msgstr "Link"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__link_clicks
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__link_clicks
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__link_clicks
+msgid "Link Clicks"
+msgstr "Cliques no link"
+
+#. module: social_publisher
+#: model:res.groups,name:social_publisher.group_social_publisher_manager
+msgid "Manager"
+msgstr "Gerente"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__max_length
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__max_length
+msgid "Max Length"
+msgstr "Tamanho máximo"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__message_has_error
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__message_has_error
+msgid "Message Delivery error"
+msgstr "Erro de entrega de mensagem"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__message_ids
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__message_ids
+msgid "Messages"
+msgstr "Mensagens"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__metric_ids
+msgid "Metric History"
+msgstr "Histórico de métricas"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_metric_view_list
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_metric_view_pivot
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_metric_view_search
+msgid "Metric Snapshots"
+msgstr "Registros de métricas"
+
+#. module: social_publisher
+#: model:ir.ui.menu,name:social_publisher.social_publisher_metric_menu
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+msgid "Metrics"
+msgstr "Métricas"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__metrics_expires_at
+msgid "Metrics Access Expires"
+msgstr "Acesso a métricas expira em"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__metrics_updated_at
+msgid "Metrics Updated At"
+msgstr "Métricas atualizadas em"
+
+#. module: social_publisher
+#: model_terms:ir.actions.act_window,help:social_publisher.social_publisher_metric_action
+msgid ""
+"Metrics are collected daily from accounts connected with metrics access."
+msgstr "As métricas são coletadas diariamente das contas conectadas com acesso a métricas."
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__my_activity_date_deadline
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Prazo da minha atividade"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__name
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__name
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_tag__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "New post"
+msgstr "Novo post"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__activity_date_deadline
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Prazo da próxima atividade"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__activity_summary
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumo da próxima atividade"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__activity_type_id
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipo da próxima atividade"
+
+#. module: social_publisher
+#: model_terms:ir.actions.act_window,help:social_publisher.social_publisher_metric_action
+msgid "No metrics yet"
+msgstr "Ainda não há métricas"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Not Scheduled"
+msgstr "Sem agendamento"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+msgid "Notes"
+msgstr "Notas"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__message_needaction_counter
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de ações"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__message_has_error_counter
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de erros"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__message_needaction_counter
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Número de mensagens que exigem ação"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__message_has_error_counter
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensagens com erro de entrega"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "Only a Social Publisher manager can approve posts."
+msgstr "Só um gerente do Social Publisher pode aprovar posts."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid ""
+"Only a Social Publisher manager can approve posts; publishing states are set"
+" by the system."
+msgstr "Só um gerente do Social Publisher pode aprovar posts; os status de publicação são definidos pelo sistema."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "Only a Social Publisher manager can publish posts."
+msgstr "Só um gerente do Social Publisher pode publicar posts."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "Only approved posts can be published."
+msgstr "Só posts aprovados podem ser publicados."
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__period_days
+msgid "Period Days"
+msgstr "Período (dias)"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__post_ids
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__post_id
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_metric__scope__post
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_metric_view_search
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+msgid "Post"
+msgstr "Post"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__post_count
+msgid "Post Count"
+msgstr "Quantidade de posts"
+
+#. module: social_publisher
+#: model:ir.actions.act_window,name:social_publisher.social_publisher_post_action
+#: model:ir.ui.menu,name:social_publisher.social_publisher_post_menu
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_form
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_metric_view_search
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_calendar
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_graph
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_list
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_pivot
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Posts"
+msgstr "Posts"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__profile_views
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__profile_views
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__profile_views
+msgid "Profile Views"
+msgstr "Visitas ao perfil"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__provider
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__provider
+msgid "Provider"
+msgstr "Rede"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Publication Week"
+msgstr "Semana de publicação"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "Publication failed: %s"
+msgstr "A publicação falhou: %s"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+msgid "Publish Now"
+msgstr "Publicar agora"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+msgid "Publish this post now?"
+msgstr "Publicar este post agora?"
+
+#. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_post__state__published
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Published"
+msgstr "Publicado"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__published_at
+msgid "Published At"
+msgstr "Publicado em"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Published On"
+msgstr "Publicado em"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "Published posts cannot be deleted; archive them on the network."
+msgstr "Posts publicados não podem ser excluídos; remova-os na própria rede."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "Published: %s"
+msgstr "Publicado: %s"
+
+#. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_post__state__publishing
+msgid "Publishing"
+msgstr "Publicando"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__members_reached
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__members_reached
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__members_reached
+msgid "Reach"
+msgstr "Alcance"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__reactions
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__reactions
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__reactions
+msgid "Reactions"
+msgstr "Reações"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__user_id
+msgid "Receives the reminder to reconnect before the access expires."
+msgstr "Recebe o lembrete para reconectar antes de o acesso expirar."
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_form
+msgid "Reconnect"
+msgstr "Reconectar"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_account.py:0
+msgid "Reconnect %s"
+msgstr "Reconectar %s"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__reference
+msgid "Reference"
+msgstr "Referência"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__locked_first_line
+msgid "Required Opening"
+msgstr "Abertura obrigatória"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__reshares
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__reshares
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__reshares
+msgid "Reshares"
+msgstr "Compartilhamentos"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__user_id
+msgid "Responsible"
+msgstr "Responsável"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__activity_user_id
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__activity_user_id
+msgid "Responsible User"
+msgstr "Usuário responsável"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__saves
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__saves
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__saves
+msgid "Saves"
+msgstr "Salvamentos"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__publish_at
+msgid "Scheduled For"
+msgstr "Agendado para"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__calendar_date
+msgid "Scheduled time, or publication time once published."
+msgstr "Horário agendado, ou horário de publicação depois de publicado."
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__scope
+msgid "Scope"
+msgstr "Escopo"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__sends
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__sends
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__sends
+msgid "Sends"
+msgstr "Envios"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__sequence
+msgid "Sequence"
+msgstr "Sequência"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_form
+msgid "Shared with all companies"
+msgstr "Compartilhada com todas as empresas"
+
+#. module: social_publisher
+#: model:ir.ui.menu,name:social_publisher.social_publisher_menu_root
+msgid "Social"
+msgstr "Social"
+
+#. module: social_publisher
+#: model:res.groups.privilege,name:social_publisher.res_groups_privilege_social_publisher
+msgid "Social Publisher"
+msgstr "Social Publisher"
+
+#. module: social_publisher
+#: model:ir.model,name:social_publisher.model_social_publisher_account
+msgid "Social Publisher Account"
+msgstr "Conta do Social Publisher"
+
+#. module: social_publisher
+#: model:ir.model,name:social_publisher.model_social_publisher_metric
+msgid "Social Publisher Metric Snapshot"
+msgstr "Registro de métricas do Social Publisher"
+
+#. module: social_publisher
+#: model:ir.model,name:social_publisher.model_social_publisher_metric_mixin
+msgid "Social Publisher Metric Values"
+msgstr "Valores de métricas do Social Publisher"
+
+#. module: social_publisher
+#: model:ir.model,name:social_publisher.model_social_publisher_post
+msgid "Social Publisher Post"
+msgstr "Post do Social Publisher"
+
+#. module: social_publisher
+#: model:ir.model,name:social_publisher.model_social_publisher_tag
+msgid "Social Publisher Tag"
+msgstr "Marcador do Social Publisher"
+
+#. module: social_publisher
+#: model:ir.actions.server,name:social_publisher.ir_cron_publish_due_ir_actions_server
+msgid "Social Publisher: Publish Scheduled Posts"
+msgstr "Social Publisher: publicar posts agendados"
+
+#. module: social_publisher
+#: model:ir.actions.server,name:social_publisher.ir_cron_sync_metrics_ir_actions_server
+msgid "Social Publisher: Sync Metrics"
+msgstr "Social Publisher: sincronizar métricas"
+
+#. module: social_publisher
+#: model:ir.actions.server,name:social_publisher.ir_cron_warn_expiring_access_ir_actions_server
+msgid "Social Publisher: Warn About Expiring Access"
+msgstr "Social Publisher: avisar sobre acesso expirando"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__metrics_expires_at
+msgid "Some networks grant metrics through a separate connection."
+msgstr "Algumas redes liberam métricas por uma conexão separada."
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__state
+msgid "State"
+msgstr "Status"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__state_color
+msgid "State Color"
+msgstr "Cor do status"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Status"
+msgstr "Status"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__activity_state
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Status baseado nas atividades\n"
+"Atrasada: o prazo já passou\n"
+"Hoje: a atividade é hoje\n"
+"Planejada: atividades futuras."
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_form
+msgid "Sync Metrics"
+msgstr "Sincronizar métricas"
+
+#. module: social_publisher
+#: model:ir.actions.act_window,name:social_publisher.social_publisher_tag_action
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__tag_ids
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__tag_ids
+#: model:ir.ui.menu,name:social_publisher.social_publisher_tag_menu
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_tag_view_list
+msgid "Tags"
+msgstr "Marcadores"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Text"
+msgstr "Texto"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__body
+msgid "Text exactly as it should appear on the network."
+msgstr "Texto exatamente como deve aparecer na rede."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_account.py:0
+msgid "The %(provider)s provider does not support '%(hook)s'."
+msgstr "A rede %(provider)s não suporta '%(hook)s'."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid ""
+"The first paragraph was changed. It must be exactly:\n"
+"%s"
+msgstr ""
+"O primeiro parágrafo foi alterado. Ele precisa ser exatamente:\n"
+"%s"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "The post has %(count)s characters; %(network)s allows %(max)s."
+msgstr "O post tem %(count)s caracteres; %(network)s permite %(max)s."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "The post is empty."
+msgstr "O post está vazio."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_account.py:0
+msgid "This account cannot list its posts on the network."
+msgstr "Esta conta não consegue listar seus posts na rede."
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_list
+msgid "Total"
+msgstr "Total"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_account__activity_exception_decoration
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo da atividade de exceção no registro."
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+msgid "View Post"
+msgstr "Ver post"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__locked_first_line
+msgid ""
+"When set, the post is only published if its first paragraph matches this "
+"text exactly (for example, a hook fixed by an agency kit)."
+msgstr "Quando preenchido, o post só é publicado se o primeiro parágrafo for exatamente este texto (por exemplo, um gancho fixado pelo kit de uma agência)."
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_metric__period_days
+msgid "Window covered by an account snapshot, in days."
+msgstr "Período coberto por um registro da conta, em dias."
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+msgid "Write the post exactly as it should appear..."
+msgstr "Escreva o post exatamente como deve aparecer..."
+
+#. module: social_publisher
+#: model_terms:ir.actions.act_window,help:social_publisher.social_publisher_post_action
+msgid "Write your first post"
+msgstr "Escreva seu primeiro post"
+
+#. module: social_publisher
+#: model:res.groups,name:social_publisher.group_social_publisher_user
+msgid "Writer"
+msgstr "Redator"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
+msgid "characters"
+msgstr "caracteres"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_form
+msgid "e.g. My LinkedIn profile"
+msgstr "ex.: Meu perfil no LinkedIn"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_account.py:0
+msgid "metrics"
+msgstr "métricas"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_account.py:0
+msgid "publishing"
+msgstr "publicação"

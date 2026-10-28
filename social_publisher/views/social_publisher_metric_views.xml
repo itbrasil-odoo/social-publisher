@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="social_publisher_metric_view_list" model="ir.ui.view">
+        <field name="name">social.publisher.metric.list</field>
+        <field name="model">social.publisher.metric</field>
+        <field name="arch" type="xml">
+            <list string="Metric Snapshots" create="false">
+                <field name="date"/>
+                <field name="scope"/>
+                <field name="account_id"/>
+                <field name="post_id"/>
+                <field name="period_days" optional="hide"/>
+                <field name="impressions"/>
+                <field name="members_reached"/>
+                <field name="reactions"/>
+                <field name="comments"/>
+                <field name="reshares"/>
+                <field name="profile_views" optional="hide"/>
+                <field name="followers_gained" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="social_publisher_metric_view_graph" model="ir.ui.view">
+        <field name="name">social.publisher.metric.graph</field>
+        <field name="model">social.publisher.metric</field>
+        <field name="arch" type="xml">
+            <graph string="Account Reach" type="line">
+                <field name="date" interval="day"/>
+                <field name="impressions" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="social_publisher_metric_view_pivot" model="ir.ui.view">
+        <field name="name">social.publisher.metric.pivot</field>
+        <field name="model">social.publisher.metric</field>
+        <field name="arch" type="xml">
+            <pivot string="Metric Snapshots">
+                <field name="date" interval="day" type="row"/>
+                <field name="impressions" type="measure"/>
+                <field name="members_reached" type="measure"/>
+                <field name="reactions" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="social_publisher_metric_view_search" model="ir.ui.view">
+        <field name="name">social.publisher.metric.search</field>
+        <field name="model">social.publisher.metric</field>
+        <field name="arch" type="xml">
+            <search string="Metric Snapshots">
+                <field name="account_id"/>
+                <field name="post_id"/>
+                <filter name="filter_account" string="Account Totals" domain="[('scope', '=', 'account')]"/>
+                <filter name="filter_post" string="Posts" domain="[('scope', '=', 'post')]"/>
+                <filter name="filter_date" string="Date" date="date"/>
+                <group>
+                    <filter name="group_post" string="Post" context="{'group_by': 'post_id'}"/>
+                    <filter name="group_date" string="Day" context="{'group_by': 'date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="social_publisher_metric_action" model="ir.actions.act_window">
+        <field name="name">Account Metrics</field>
+        <field name="res_model">social.publisher.metric</field>
+        <field name="view_mode">graph,list,pivot</field>
+        <field name="context">{'search_default_filter_account': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">No metrics yet</p>
+            <p>Metrics are collected daily from accounts connected with metrics access.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="social_publisher_menu_root" name="Social"
+              web_icon="social_publisher,static/description/icon.png"
+              groups="group_social_publisher_user" sequence="45"/>
+
+    <menuitem id="social_publisher_post_menu" name="Posts" parent="social_publisher_menu_root"
+              action="social_publisher_post_action" sequence="10"/>
+
+    <menuitem id="social_publisher_metric_menu" name="Metrics" parent="social_publisher_menu_root"
+              action="social_publisher_metric_action" sequence="20"/>
+
+    <menuitem id="social_publisher_config_menu" name="Configuration" parent="social_publisher_menu_root"
+              groups="group_social_publisher_manager" sequence="90"/>
+
+    <menuitem id="social_publisher_account_menu" name="Accounts" parent="social_publisher_config_menu"
+              action="social_publisher_account_action" sequence="10"/>
+
+    <menuitem id="social_publisher_tag_menu" name="Tags" parent="social_publisher_config_menu"
+              action="social_publisher_tag_action" sequence="20"/>
+</odoo>
