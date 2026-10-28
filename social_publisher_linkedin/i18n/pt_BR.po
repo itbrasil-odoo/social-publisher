@@ -1,0 +1,354 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* social_publisher_linkedin
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-28 20:39+0000\n"
+"PO-Revision-Date: 2026-10-28 20:39+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: social_publisher_linkedin
+#: model_terms:ir.ui.view,arch_db:social_publisher_linkedin.social_publisher_account_view_form
+msgid ""
+"A <b>personal profile</b> publishes through an app with the products\n"
+"                        <b>Share on LinkedIn</b> and <b>Sign In with LinkedIn using OpenID Connect</b>;\n"
+"                        its metrics need the <b>Community Management API</b>, which LinkedIn only grants\n"
+"                        to an app with no other product, so use a second app for it.\n"
+"                        A <b>company page</b> uses the Community Management API app for everything.\n"
+"                        Add the redirect URL below to the Auth tab of every app you use."
+msgstr ""
+"Um <b>perfil pessoal</b> publica por um app com os produtos\n"
+"                        <b>Share on LinkedIn</b> e <b>Sign In with LinkedIn using OpenID Connect</b>;\n"
+"                        as métricas dele precisam da <b>Community Management API</b>, que o LinkedIn só libera\n"
+"                        para um app sem nenhum outro produto, então use um segundo app para ela.\n"
+"                        Uma <b>página de empresa</b> usa o app da Community Management API para tudo.\n"
+"                        Adicione a URL de redirecionamento abaixo na aba Auth de cada app que usar."
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,help:social_publisher_linkedin.field_social_publisher_account__linkedin_account_type
+msgid ""
+"A company page publishes and reads metrics through the Community Management "
+"API app only."
+msgstr "Uma página de empresa publica e lê métricas só pelo app da Community Management API."
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_api_version
+msgid "API Version"
+msgstr "Versão da API"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_linkedin_page__account_id
+msgid "Account"
+msgstr "Conta"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,help:social_publisher_linkedin.field_social_publisher_account__linkedin_redirect_uri
+msgid ""
+"Add this URL to 'Authorized redirect URLs' in the Auth tab of each LinkedIn "
+"app."
+msgstr "Adicione esta URL em 'Authorized redirect URLs', na aba Auth de cada app do LinkedIn."
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_page_ids
+msgid "Administered Pages"
+msgstr "Páginas administradas"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,help:social_publisher_linkedin.field_social_publisher_account__linkedin_metrics_client_id
+msgid ""
+"App with the Community Management API product: profile metrics and company "
+"pages. Leave empty if the publishing app also has it."
+msgstr "App com o produto Community Management API: métricas do perfil e páginas de empresa. Deixe vazio se o app de publicação também tiver esse produto."
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "Choose the company page of %s first."
+msgstr "Escolha primeiro a página de empresa de %s."
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_client_id
+msgid "Client ID"
+msgstr "Client ID"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_client_secret
+msgid "Client Secret"
+msgstr "Client Secret"
+
+#. module: social_publisher_linkedin
+#: model_terms:ir.ui.view,arch_db:social_publisher_linkedin.social_publisher_account_view_form
+msgid "Community Management API App"
+msgstr "App da Community Management API"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_metrics_client_id
+msgid "Community Management Client ID"
+msgstr "Client ID da Community Management"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_metrics_client_secret
+msgid "Community Management Client Secret"
+msgstr "Client Secret da Community Management"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_linkedin_page__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_page_id
+#: model:ir.model.fields.selection,name:social_publisher_linkedin.selection__social_publisher_account__linkedin_account_type__organization
+msgid "Company Page"
+msgstr "Página de empresa"
+
+#. module: social_publisher_linkedin
+#: model_terms:ir.ui.view,arch_db:social_publisher_linkedin.social_publisher_account_view_form
+msgid "Connect Metrics"
+msgstr "Conectar métricas"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "Connect the LinkedIn account first."
+msgstr "Conecte a conta do LinkedIn primeiro."
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "Connect the LinkedIn metrics access first."
+msgstr "Conecte primeiro o acesso a métricas do LinkedIn."
+
+#. module: social_publisher_linkedin
+#: model_terms:ir.ui.view,arch_db:social_publisher_linkedin.social_publisher_account_view_form
+msgid "Connect, then choose the page"
+msgstr "Conecte e depois escolha a página"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_member_name
+msgid "Connected As"
+msgstr "Conectado como"
+
+#. module: social_publisher_linkedin
+#: model_terms:ir.ui.view,arch_db:social_publisher_linkedin.social_publisher_account_view_form
+msgid "Connection"
+msgstr "Conexão"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_linkedin_page__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_linkedin_page__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__display_name
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_linkedin_page__display_name
+msgid "Display Name"
+msgstr "Nome exibido"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "Fill in the Client ID and Client Secret of the LinkedIn app first."
+msgstr "Preencha primeiro o Client ID e o Client Secret do app do LinkedIn."
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_scopes
+msgid "Granted Scopes"
+msgstr "Escopos concedidos"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_linkedin_page__vanity_name
+msgid "Handle"
+msgstr "Identificador"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__id
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_linkedin_page__id
+msgid "ID"
+msgstr "ID"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "Image upload failed (%(status)s): %(body)s"
+msgstr "O envio da imagem falhou (%(status)s): %(body)s"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_linkedin_page__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_linkedin_page__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,help:social_publisher_linkedin.field_social_publisher_linkedin_page__company_id
+msgid ""
+"Leave empty to share the account (for example a personal profile) with every"
+" company."
+msgstr "Deixe vazio para compartilhar a conta (por exemplo, um perfil pessoal) com todas as empresas."
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields.selection,name:social_publisher_linkedin.selection__social_publisher_account__provider__linkedin
+#: model_terms:ir.ui.view,arch_db:social_publisher_linkedin.social_publisher_account_view_form
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "LinkedIn %(kind)s access connected; valid until %(date)s."
+msgstr "Acesso de %(kind)s ao LinkedIn conectado; válido até %(date)s."
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "LinkedIn %(method)s %(path)s failed (%(status)s): %(body)s"
+msgstr "LinkedIn %(method)s %(path)s falhou (%(status)s): %(body)s"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_account_type
+msgid "LinkedIn Account"
+msgstr "Conta do LinkedIn"
+
+#. module: social_publisher_linkedin
+#: model:ir.model,name:social_publisher_linkedin.model_social_publisher_linkedin_page
+msgid "LinkedIn Company Page"
+msgstr "Página de empresa no LinkedIn"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/controllers/main.py:0
+msgid "LinkedIn connection failed: %s"
+msgstr "A conexão com o LinkedIn falhou: %s"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "LinkedIn refused the code (%(status)s): %(body)s"
+msgstr "O LinkedIn recusou o código (%(status)s): %(body)s"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/controllers/main.py:0
+msgid "LinkedIn refused the connection: %(error)s %(desc)s"
+msgstr "O LinkedIn recusou a conexão: %(error)s %(desc)s"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,help:social_publisher_linkedin.field_social_publisher_account__linkedin_api_version
+msgid ""
+"LinkedIn versioned API (YYYYMM). LinkedIn retires versions after about a "
+"year."
+msgstr "Versão da API do LinkedIn (AAAAMM). O LinkedIn desativa versões depois de cerca de um ano."
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_access_token
+msgid "Linkedin Access Token"
+msgstr "Token de acesso do LinkedIn"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_metrics_access_token
+msgid "Linkedin Metrics Access Token"
+msgstr "Token de métricas do LinkedIn"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_oauth_state
+msgid "Linkedin Oauth State"
+msgstr "State OAuth do LinkedIn"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_member_id
+msgid "Member ID"
+msgstr "ID do membro"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_metrics_scopes
+msgid "Metrics Scopes"
+msgstr "Escopos de métricas"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_linkedin_page__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/controllers/main.py:0
+msgid "Only a Social Publisher manager can connect accounts."
+msgstr "Só um gerente do Social Publisher pode conectar contas."
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields.selection,name:social_publisher_linkedin.selection__social_publisher_account__linkedin_account_type__member
+msgid "Personal Profile"
+msgstr "Perfil pessoal"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "Pick one of the pages listed for this account."
+msgstr "Escolha uma das páginas listadas para esta conta."
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__provider
+msgid "Provider"
+msgstr "Rede"
+
+#. module: social_publisher_linkedin
+#: model_terms:ir.ui.view,arch_db:social_publisher_linkedin.social_publisher_account_view_form
+msgid "Publishing App"
+msgstr "App de publicação"
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_account__linkedin_redirect_uri
+msgid "Redirect URL"
+msgstr "URL de redirecionamento"
+
+#. module: social_publisher_linkedin
+#: model:ir.model,name:social_publisher_linkedin.model_social_publisher_account
+msgid "Social Publisher Account"
+msgstr "Conta do Social Publisher"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "The connected member administers no company page."
+msgstr "O membro conectado não administra nenhuma página de empresa."
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid ""
+"This authorization link is no longer valid. Start again from the Connect "
+"button."
+msgstr "Este link de autorização não vale mais. Comece de novo pelo botão Conectar."
+
+#. module: social_publisher_linkedin
+#: model:ir.model.constraint,message:social_publisher_linkedin.constraint_social_publisher_linkedin_page_urn_account_uniq
+msgid "This page is already listed for the account."
+msgstr "Esta página já está listada para a conta."
+
+#. module: social_publisher_linkedin
+#: model:ir.model.fields,field_description:social_publisher_linkedin.field_social_publisher_linkedin_page__urn
+msgid "URN"
+msgstr "URN"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "Unsupported image format %s (use PNG, JPEG or GIF)."
+msgstr "Formato de imagem não suportado: %s (use PNG, JPEG ou GIF)."

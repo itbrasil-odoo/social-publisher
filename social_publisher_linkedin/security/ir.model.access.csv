@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_social_publisher_linkedin_page_user,social.publisher.linkedin.page user,model_social_publisher_linkedin_page,social_publisher.group_social_publisher_user,1,0,0,0
+access_social_publisher_linkedin_page_manager,social.publisher.linkedin.page manager,model_social_publisher_linkedin_page,social_publisher.group_social_publisher_manager,1,1,1,1
