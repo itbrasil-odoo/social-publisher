@@ -4,8 +4,8 @@
     "category": "Marketing/Social Marketing",
     "summary": "Publish to LinkedIn profiles and company pages and collect their analytics",
     "license": "LGPL-3",
-    "author": "Renan Teixeira",
-    "website": "https://github.com/renanteixeira/social-publisher",
+    "author": "IT Brasil, Renan Teixeira",
+    "website": "https://github.com/itbrasil-odoo/social-publisher",
     "depends": [
         "social_publisher",
     ],
@@ -13,6 +13,11 @@
         "security/ir.model.access.csv",
         "security/social_publisher_linkedin_security.xml",
         "views/social_publisher_account_views.xml",
+    ],
+    "images": [
+        "static/description/banner.png",
+        "static/description/account_screenshot.png",
+        "static/description/post_screenshot.png",
     ],
     "installable": True,
     "auto_install": False,

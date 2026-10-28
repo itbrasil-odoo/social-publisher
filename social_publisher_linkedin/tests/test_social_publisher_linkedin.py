@@ -39,7 +39,7 @@ class TestSocialPublisherLinkedin(TransactionCase):
             cls.env, login="sp_manager", groups="social_publisher.group_social_publisher_manager"
         )
         cls.account = cls.env["social.publisher.account"].create({
-            "name": "Renan",
+            "name": "Jane Doe",
             "provider": "linkedin",
             "linkedin_client_id": "cid",
             "linkedin_client_secret": "csecret",
@@ -163,12 +163,12 @@ class TestSocialPublisherLinkedin(TransactionCase):
             account._linkedin_finish_connect("1:publish:forged", "code")
         token = _response(200, {"access_token": "new", "expires_in": 5184000,
                                 "scope": "openid,profile,w_member_social"})
-        userinfo = _response(200, {"sub": "xyz", "name": "Renan Teixeira"})
+        userinfo = _response(200, {"sub": "xyz", "name": "Jane Doe"})
         with patch(f"{MODULE}.requests.post", return_value=token), \
                 patch(f"{MODULE}.requests.request", return_value=userinfo):
             account._linkedin_finish_connect(state, "code")
         self.assertEqual(self.account.linkedin_access_token, "new")
-        self.assertEqual(self.account.linkedin_member_name, "Renan Teixeira")
+        self.assertEqual(self.account.linkedin_member_name, "Jane Doe")
         self.assertEqual(self.account.connection_state, "connected")
         self.assertFalse(self.account.linkedin_oauth_state, "a state is single-use")
 
@@ -202,7 +202,7 @@ class TestSocialPublisherLinkedin(TransactionCase):
 
     def _organization_account(self, **vals):
         return self.env["social.publisher.account"].create({
-            "name": "Dedicata",
+            "name": "Example Corp",
             "provider": "linkedin",
             "linkedin_account_type": "organization",
             "linkedin_metrics_client_id": "cm_id",
@@ -218,13 +218,13 @@ class TestSocialPublisherLinkedin(TransactionCase):
         token = _response(200, {"access_token": "otok", "expires_in": 5184000,
                                 "scope": "rw_organization_admin,w_organization_social"})
         acls = _response(200, {"elements": [{"organization": "urn:li:organization:777"}]})
-        orgs = _response(200, {"results": {"777": {"localizedName": "Dedicata",
-                                                   "vanityName": "dedicata"}}})
+        orgs = _response(200, {"results": {"777": {"localizedName": "Example Corp",
+                                                   "vanityName": "example-corp"}}})
         with patch(f"{MODULE}.requests.post", return_value=token), \
                 patch(f"{MODULE}.requests.request", side_effect=[acls, orgs]) as call:
             account._linkedin_finish_connect(account.sudo().linkedin_oauth_state, "code")
         self.assertIn("List(777)", call.call_args_list[1].args[1])
-        self.assertEqual(account.linkedin_page_id.name, "Dedicata")
+        self.assertEqual(account.linkedin_page_id.name, "Example Corp")
         self.assertEqual(account.linkedin_page_id.urn, "urn:li:organization:777")
         self.assertEqual(account.connection_state, "connected")
         self.assertTrue(account._can_fetch_metrics(), "one token publishes and reads stats")
@@ -237,7 +237,7 @@ class TestSocialPublisherLinkedin(TransactionCase):
             metrics_expires_at=fields.Datetime.now() + timedelta(days=50),
         )
         account.linkedin_page_id = self.env["social.publisher.linkedin.page"].create({
-            "account_id": account.id, "name": "Dedicata", "urn": "urn:li:organization:777"})
+            "account_id": account.id, "name": "Example Corp", "urn": "urn:li:organization:777"})
         return account
 
     def test_organization_publish_as_page(self):
@@ -292,13 +292,13 @@ class TestSocialPublisherLinkedin(TransactionCase):
     def test_from_little_text(self):
         self.assertEqual(from_little_text(to_little_text("Veja (isso) #Odoo e C#")),
                          "Veja (isso) #Odoo e C#")
-        self.assertEqual(from_little_text("Oi @[IT Brasil](urn:li:organization:1)"), "Oi @IT Brasil")
+        self.assertEqual(from_little_text("Oi @[Acme Inc](urn:li:organization:1)"), "Oi @Acme Inc")
 
     # --- multi-company -----------------------------------------------------
 
     def test_multi_company(self):
-        other = self.env["res.company"].create({"name": "IT Brasil"})
-        account_b = self._organization_account(name="IT Brasil", company_id=other.id)
+        other = self.env["res.company"].create({"name": "Acme Inc"})
+        account_b = self._organization_account(name="Acme Inc", company_id=other.id)
         shared = self.account  # created in the main company; share it with everyone
         shared.company_id = False
         writer = new_test_user(self.env, login="sp_writer_a",
