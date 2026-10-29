@@ -171,13 +171,19 @@ class SocialPublisherAccount(models.Model):
         copy=False,
         tracking=True,
     )
-    linkedin_access_token = fields.Char(groups="base.group_system", copy=False)
+    linkedin_access_token = fields.Char(
+        groups="base.group_system", copy=False, readonly=True
+    )
     linkedin_scopes = fields.Char(string="Granted Scopes", readonly=True, copy=False)
-    linkedin_metrics_access_token = fields.Char(groups="base.group_system", copy=False)
+    linkedin_metrics_access_token = fields.Char(
+        groups="base.group_system", copy=False, readonly=True
+    )
     linkedin_metrics_scopes = fields.Char(
         string="Metrics Scopes", readonly=True, copy=False
     )
-    linkedin_oauth_state = fields.Char(groups="base.group_system", copy=False)
+    linkedin_oauth_state = fields.Char(
+        groups="base.group_system", copy=False, readonly=True
+    )
 
     def _compute_linkedin_redirect_uri(self):
         url = self.get_base_url() + CALLBACK_PATH

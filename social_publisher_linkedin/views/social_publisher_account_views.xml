@@ -22,6 +22,7 @@
                     name="linkedin_account_type"
                     invisible="provider != 'linkedin'"
                     required="provider == 'linkedin'"
+                    readonly="token_expires_at"
                 />
                 <field
                     name="linkedin_page_id"

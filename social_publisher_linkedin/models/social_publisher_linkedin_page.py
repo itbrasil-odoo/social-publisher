@@ -8,11 +8,15 @@ class SocialPublisherLinkedinPage(models.Model):
     _description = "LinkedIn Company Page"
     _order = "name"
 
-    name = fields.Char(required=True)
-    urn = fields.Char(string="URN", required=True)
-    vanity_name = fields.Char(string="Handle")
+    name = fields.Char(required=True, readonly=True)
+    urn = fields.Char(string="URN", required=True, readonly=True)
+    vanity_name = fields.Char(string="Handle", readonly=True)
     account_id = fields.Many2one(
-        "social.publisher.account", required=True, ondelete="cascade", index=True
+        "social.publisher.account",
+        required=True,
+        ondelete="cascade",
+        index=True,
+        readonly=True,
     )
     company_id = fields.Many2one(related="account_id.company_id", store=True)
 

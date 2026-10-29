@@ -1,6 +1,6 @@
 {
     "name": "Social Publisher - LinkedIn",
-    "version": "19.0.1.3.2",
+    "version": "19.0.1.3.3",
     "category": "Marketing/Social Marketing",
     "summary": "Publish to LinkedIn profiles and company pages, with analytics",
     "license": "LGPL-3",
