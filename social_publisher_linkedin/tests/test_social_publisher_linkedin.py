@@ -173,8 +173,12 @@ class TestSocialPublisherLinkedin(TransactionCase):
         with (
             self._no_commit(),
             patch(f"{MODULE}.requests.request", return_value=refused),
+            self.assertLogs(
+                "odoo.addons.social_publisher.models.social_publisher_post", "WARNING"
+            ) as logs,
         ):
             self.Post._cron_publish_due()
+        self.assertIn(f"Publishing post {post.id} failed", logs.output[0])
         self.assertEqual(post.state, "failed")
         self.assertIn("422", post.failure_reason)
         with self._no_commit(), patch(f"{MODULE}.requests.request") as call:
