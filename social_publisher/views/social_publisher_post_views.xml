@@ -109,7 +109,8 @@
             <list string="Posts" decoration-muted="state == 'draft'" decoration-danger="state == 'failed'">
                 <field name="calendar_date" string="Date"/>
                 <field name="name"/>
-                <field name="account_id"/>
+                <field name="reference" optional="show"/>
+                <field name="account_id" optional="show"/>
                 <field name="company_id" groups="base.group_multi_company" optional="hide"/>
                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
                 <field name="state" widget="badge"
@@ -121,6 +122,7 @@
                 <field name="reactions" optional="show" sum="Total"/>
                 <field name="comments" optional="show" sum="Total"/>
                 <field name="engagement_rate" optional="hide" string="Engagement (%)"/>
+                <field name="activity_ids" widget="list_activity" optional="show"/>
             </list>
         </field>
     </record>
@@ -132,21 +134,31 @@
             <kanban default_group_by="state" quick_create="false" records_draggable="false"
                     group_create="false" group_delete="false" group_edit="false">
                 <field name="state"/>
+                <field name="image"/>
                 <templates>
-                    <t t-name="card">
-                        <field name="name" class="fw-bold"/>
-                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                        <footer>
-                            <div class="d-flex gap-1 text-muted small">
-                                <i class="fa fa-calendar" title="Date"/>
-                                <field name="calendar_date" widget="datetime"/>
-                            </div>
-                            <div class="ms-auto text-muted small" t-if="record.state.raw_value == 'published'">
-                                <i class="fa fa-eye" title="Impressions"/> <field name="impressions"/>
-                                <i class="fa fa-thumbs-up ms-2" title="Reactions"/> <field name="reactions"/>
-                            </div>
-                            <field name="account_id" class="ms-auto small" t-else=""/>
-                        </footer>
+                    <t t-name="card" class="flex-row">
+                        <aside t-if="record.image.raw_value" class="me-2">
+                            <field name="image" widget="image" options="{'size': [64, 64], 'img_class': 'rounded'}"
+                                   alt="Artwork"/>
+                        </aside>
+                        <main class="flex-grow-1">
+                            <field name="name" class="fw-bold"/>
+                            <field name="reference" class="text-muted small"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <footer class="pt-1">
+                                <div class="d-flex gap-1 text-muted small">
+                                    <i class="fa fa-calendar" title="Date"/>
+                                    <field name="calendar_date" widget="datetime"/>
+                                </div>
+                                <div class="ms-auto d-flex align-items-center gap-2">
+                                    <span class="text-muted small text-nowrap" t-if="record.state.raw_value == 'published'">
+                                        <i class="fa fa-eye" title="Impressions"/> <field name="impressions"/>
+                                        <i class="fa fa-thumbs-up ms-2" title="Reactions"/> <field name="reactions"/>
+                                    </span>
+                                    <field name="activity_ids" widget="kanban_activity"/>
+                                </div>
+                            </footer>
+                        </main>
                     </t>
                 </templates>
             </kanban>
@@ -161,8 +173,9 @@
                       event_open_popup="true" quick_create="0" scales="day,week,month,year">
                 <field name="state" filters="1"/>
                 <field name="account_id" filters="1"/>
-                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" filters="1"
                        invisible="not tag_ids"/>
+                <field name="reference" invisible="not reference"/>
                 <field name="impressions" invisible="state != 'published'"/>
                 <field name="reactions" invisible="state != 'published'"/>
             </calendar>
@@ -175,6 +188,7 @@
         <field name="arch" type="xml">
             <pivot string="Posts">
                 <field name="published_at" interval="week" type="row"/>
+                <field name="tag_ids" type="col"/>
                 <field name="impressions" type="measure"/>
                 <field name="reactions" type="measure"/>
                 <field name="comments" type="measure"/>
@@ -207,18 +221,40 @@
                 <filter name="filter_published" string="Published" domain="[('state', '=', 'published')]"/>
                 <filter name="filter_failed" string="Failed" domain="[('state', '=', 'failed')]"/>
                 <separator/>
+                <filter name="filter_scheduled" string="Scheduled"
+                        domain="[('publish_at', '!=', False), ('state', '=', 'approved')]"/>
+                <filter name="filter_next_7_days" string="Next 7 Days"
+                        domain="[('publish_at', '>=', context_today().strftime('%Y-%m-%d')),
+                                 ('publish_at', '&lt;', (context_today() + relativedelta(days=7)).strftime('%Y-%m-%d')),
+                                 ('state', 'in', ('draft', 'approved'))]"/>
                 <filter name="filter_unscheduled" string="Not Scheduled"
                         domain="[('publish_at', '=', False), ('state', 'in', ('draft', 'approved'))]"/>
                 <separator/>
+                <filter name="filter_kit" string="Kit Posts" domain="[('reference', 'ilike', 'kit')]"/>
+                <filter name="filter_own" string="Own Posts"
+                        domain="['|', ('reference', '=', False), ('reference', 'not ilike', 'kit')]"/>
+                <filter name="filter_no_tag" string="Without Tags" domain="[('tag_ids', '=', False)]"/>
+                <separator/>
+                <filter name="filter_my_activities" string="My Activities"
+                        domain="[('activity_user_id', '=', uid)]"/>
+                <separator/>
+                <filter name="filter_publish_at" string="Scheduled For" date="publish_at"/>
                 <filter name="filter_published_at" string="Published On" date="published_at"/>
                 <group>
                     <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_tag" string="Tag" context="{'group_by': 'tag_ids'}"/>
                     <filter name="group_account" string="Account" context="{'group_by': 'account_id'}"/>
                     <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"
                             groups="base.group_multi_company"/>
+                    <filter name="group_scheduled" string="Scheduled Week"
+                            context="{'group_by': 'publish_at:week'}"/>
                     <filter name="group_published" string="Publication Week"
                             context="{'group_by': 'published_at:week'}"/>
                 </group>
+                <searchpanel>
+                    <field name="tag_ids" string="Tags" select="multi" icon="fa-tags" enable_counters="1"/>
+                    <field name="account_id" string="Accounts" select="multi" icon="fa-user" enable_counters="1"/>
+                </searchpanel>
             </search>
         </field>
     </record>

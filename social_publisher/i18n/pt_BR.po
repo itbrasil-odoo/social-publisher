@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 22:19+0000\n"
-"PO-Revision-Date: 2026-10-28 22:19+0000\n"
+"POT-Creation-Date: 2026-10-29 01:25+0000\n"
+"PO-Revision-Date: 2026-10-29 01:25+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -86,6 +86,7 @@ msgstr "Totais da conta"
 #: model:ir.actions.act_window,name:social_publisher.social_publisher_account_action
 #: model:ir.ui.menu,name:social_publisher.social_publisher_account_menu
 #: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_list
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
 msgid "Accounts"
 msgstr "Contas"
 
@@ -151,6 +152,11 @@ msgstr "Aprova e publica posts, gerencia contas."
 #: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_account_view_form
 msgid "Archived"
 msgstr "Arquivado"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_kanban
+msgid "Artwork"
+msgstr "Arte"
 
 #. module: social_publisher
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__message_attachment_count
@@ -443,6 +449,11 @@ msgid "Is Follower"
 msgstr "É seguidor"
 
 #. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Kit Posts"
+msgstr "Posts do kit"
+
+#. module: social_publisher
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__lang
 msgid "Language"
 msgstr "Idioma"
@@ -547,6 +558,11 @@ msgid ""
 msgstr "As métricas são coletadas diariamente das contas conectadas com acesso a métricas."
 
 #. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "My Activities"
+msgstr "Minhas atividades"
+
+#. module: social_publisher
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__my_activity_date_deadline
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__my_activity_date_deadline
 msgid "My Activity Deadline"
@@ -564,6 +580,11 @@ msgstr "Nome"
 #: code:addons/social_publisher/models/social_publisher_post.py:0
 msgid "New post"
 msgstr "Novo post"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Next 7 Days"
+msgstr "Próximos 7 dias"
 
 #. module: social_publisher
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__activity_date_deadline
@@ -647,6 +668,11 @@ msgstr "Só um gerente do Social Publisher pode publicar posts."
 #: code:addons/social_publisher/models/social_publisher_post.py:0
 msgid "Only approved posts can be published."
 msgstr "Só posts aprovados podem ser publicados."
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Own Posts"
+msgstr "Posts próprios"
 
 #. module: social_publisher
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__period_days
@@ -818,9 +844,20 @@ msgid "Saves"
 msgstr "Salvamentos"
 
 #. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Scheduled"
+msgstr "Agendados"
+
+#. module: social_publisher
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__publish_at
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
 msgid "Scheduled For"
 msgstr "Agendado para"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Scheduled Week"
+msgstr "Semana agendada"
 
 #. module: social_publisher
 #: model:ir.model.fields,help:social_publisher.field_social_publisher_post__calendar_date
@@ -939,10 +976,16 @@ msgid "Sync Metrics"
 msgstr "Sincronizar métricas"
 
 #. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Tag"
+msgstr "Marcador"
+
+#. module: social_publisher
 #: model:ir.actions.act_window,name:social_publisher.social_publisher_tag_action
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__tag_ids
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__tag_ids
 #: model:ir.ui.menu,name:social_publisher.social_publisher_tag_menu
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
 #: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_tag_view_list
 msgid "Tags"
 msgstr "Marcadores"
@@ -1028,6 +1071,11 @@ msgstr "Quando preenchido, o post só é publicado se o primeiro parágrafo for 
 #: model:ir.model.fields,help:social_publisher.field_social_publisher_metric__period_days
 msgid "Window covered by an account snapshot, in days."
 msgstr "Período coberto por um registro da conta, em dias."
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "Without Tags"
+msgstr "Sem marcador"
 
 #. module: social_publisher
 #: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
