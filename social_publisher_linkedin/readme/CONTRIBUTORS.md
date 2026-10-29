@@ -1,0 +1,1 @@
+- Renan Teixeira ([IT Brasil](https://github.com/itbrasil-odoo))

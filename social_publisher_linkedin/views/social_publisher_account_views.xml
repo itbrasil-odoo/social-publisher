@@ -1,64 +1,112 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="social_publisher_account_view_form" model="ir.ui.view">
         <field name="name">social.publisher.account.form.linkedin</field>
         <field name="model">social.publisher.account</field>
-        <field name="inherit_id" ref="social_publisher.social_publisher_account_view_form"/>
+        <field
+            name="inherit_id"
+            ref="social_publisher.social_publisher_account_view_form"
+        />
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_sync_metrics']" position="before">
-                <button name="action_linkedin_connect_metrics" type="object" string="Connect Metrics"
-                        invisible="provider != 'linkedin' or linkedin_account_type != 'member' or linkedin_single_app or connection_state == 'disconnected'"
-                        groups="base.group_system"/>
+                <button
+                    name="action_linkedin_connect_metrics"
+                    type="object"
+                    string="Connect Metrics"
+                    invisible="provider != 'linkedin' or linkedin_account_type != 'member' or linkedin_single_app or connection_state == 'disconnected'"
+                    groups="base.group_system"
+                />
             </xpath>
             <xpath expr="//field[@name='provider']" position="after">
-                <field name="linkedin_account_type" invisible="provider != 'linkedin'"
-                       required="provider == 'linkedin'"/>
-                <field name="linkedin_page_id" options="{'no_create': True, 'no_open': True}"
-                       invisible="provider != 'linkedin' or linkedin_account_type != 'organization'"
-                       placeholder="Connect, then choose the page"/>
+                <field
+                    name="linkedin_account_type"
+                    invisible="provider != 'linkedin'"
+                    required="provider == 'linkedin'"
+                />
+                <field
+                    name="linkedin_page_id"
+                    options="{'no_create': True, 'no_open': True}"
+                    invisible="provider != 'linkedin' or linkedin_account_type != 'organization'"
+                    placeholder="Connect, then choose the page"
+                />
             </xpath>
             <xpath expr="//group[@name='main']/group[1]" position="inside">
-                <field name="linkedin_member_name"
-                       invisible="provider != 'linkedin' or linkedin_account_type != 'member' or not linkedin_member_name"/>
+                <field
+                    name="linkedin_member_name"
+                    invisible="provider != 'linkedin' or linkedin_account_type != 'member' or not linkedin_member_name"
+                />
             </xpath>
             <xpath expr="//notebook[@name='provider']" position="inside">
-                <page string="LinkedIn" name="linkedin" invisible="provider != 'linkedin'"
-                      groups="base.group_system">
+                <page
+                    string="LinkedIn"
+                    name="linkedin"
+                    invisible="provider != 'linkedin'"
+                    groups="base.group_system"
+                >
                     <div class="alert alert-info" role="alert">
-                        A <b>personal profile</b> publishes through an app with the products
-                        <b>Share on LinkedIn</b> and <b>Sign In with LinkedIn using OpenID Connect</b>;
-                        its metrics need the <b>Community Management API</b>, which LinkedIn only grants
+                        A <b
+                    >personal profile</b> publishes through an app with the products
+                        <b>Share on LinkedIn</b> and <b
+                    >Sign In with LinkedIn using OpenID Connect</b>;
+                        its metrics need the <b
+                    >Community Management API</b>, which LinkedIn only grants
                         to an app with no other product, so use a second app for it.
-                        If your Community Management API app also has <i>w_member_social</i> and
-                        <i>r_basicprofile</i>, fill in only that app: the profile then connects once.
-                        A <b>company page</b> uses the Community Management API app for everything.
+                        If your Community Management API app also has <i
+                    >w_member_social</i> and
+                        <i
+                    >r_basicprofile</i>, fill in only that app: the profile then connects once.
+                        A <b
+                    >company page</b> uses the Community Management API app for everything.
                         Add the redirect URL below to the Auth tab of every app you use.
                     </div>
                     <group>
-                        <group string="Publishing App" invisible="linkedin_account_type == 'organization'">
-                            <field name="linkedin_client_id"/>
-                            <field name="linkedin_client_secret" password="True"/>
+                        <group
+                            string="Publishing App"
+                            invisible="linkedin_account_type == 'organization'"
+                        >
+                            <field name="linkedin_client_id" />
+                            <field name="linkedin_client_secret" password="True" />
                         </group>
                         <group string="Community Management API App">
-                            <field name="linkedin_metrics_client_id"
-                                   required="provider == 'linkedin' and linkedin_account_type == 'organization'"/>
-                            <field name="linkedin_metrics_client_secret" password="True"
-                                   required="provider == 'linkedin' and linkedin_account_type == 'organization'"/>
+                            <field
+                                name="linkedin_metrics_client_id"
+                                required="provider == 'linkedin' and linkedin_account_type == 'organization'"
+                            />
+                            <field
+                                name="linkedin_metrics_client_secret"
+                                password="True"
+                                required="provider == 'linkedin' and linkedin_account_type == 'organization'"
+                            />
                         </group>
                         <group string="Connection">
-                            <field name="linkedin_redirect_uri" widget="CopyClipboardChar"/>
-                            <field name="linkedin_api_version"/>
-                            <field name="linkedin_single_app" invisible="linkedin_account_type == 'organization'"/>
-                            <field name="linkedin_member_id" invisible="linkedin_account_type == 'organization'"/>
-                            <field name="linkedin_scopes"/>
-                            <field name="linkedin_metrics_scopes" invisible="linkedin_account_type == 'organization'"/>
+                            <field
+                                name="linkedin_redirect_uri"
+                                widget="CopyClipboardChar"
+                            />
+                            <field name="linkedin_api_version" />
+                            <field
+                                name="linkedin_single_app"
+                                invisible="linkedin_account_type == 'organization'"
+                            />
+                            <field
+                                name="linkedin_member_id"
+                                invisible="linkedin_account_type == 'organization'"
+                            />
+                            <field name="linkedin_scopes" />
+                            <field
+                                name="linkedin_metrics_scopes"
+                                invisible="linkedin_account_type == 'organization'"
+                            />
                         </group>
                     </group>
-                    <field name="linkedin_page_ids" invisible="linkedin_account_type != 'organization'">
+                    <field
+                        name="linkedin_page_ids"
+                        invisible="linkedin_account_type != 'organization'"
+                    >
                         <list>
-                            <field name="name"/>
-                            <field name="vanity_name"/>
-                            <field name="urn"/>
+                            <field name="name" />
+                            <field name="vanity_name" />
+                            <field name="urn" />
                         </list>
                     </field>
                 </page>
@@ -69,10 +117,13 @@
     <record id="social_publisher_account_view_list" model="ir.ui.view">
         <field name="name">social.publisher.account.list.linkedin</field>
         <field name="model">social.publisher.account</field>
-        <field name="inherit_id" ref="social_publisher.social_publisher_account_view_list"/>
+        <field
+            name="inherit_id"
+            ref="social_publisher.social_publisher_account_view_list"
+        />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='provider']" position="after">
-                <field name="linkedin_account_type" optional="show"/>
+                <field name="linkedin_account_type" optional="show" />
             </xpath>
         </field>
     </record>
