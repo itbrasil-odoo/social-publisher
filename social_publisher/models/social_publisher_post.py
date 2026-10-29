@@ -75,6 +75,7 @@ class SocialPublisherPost(models.Model):
         tracking=True,
         index=True,
         copy=False,
+        readonly=True,
         group_expand="_group_expand_states",
     )
     publish_at = fields.Datetime(
@@ -112,7 +113,7 @@ class SocialPublisherPost(models.Model):
     failure_reason = fields.Text(readonly=True, copy=False)
     metrics_updated_at = fields.Datetime(readonly=True, copy=False)
     metric_ids = fields.One2many(
-        "social.publisher.metric", "post_id", string="Metric History"
+        "social.publisher.metric", "post_id", string="Metric History", readonly=True
     )
     engagement_rate = fields.Float(compute="_compute_engagement_rate", digits=(16, 2))
 

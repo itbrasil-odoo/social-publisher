@@ -69,7 +69,7 @@ class SocialPublisherAccount(models.Model):
     )
     max_length = fields.Integer(compute="_compute_max_length")
     can_import_posts = fields.Boolean(compute="_compute_can_import_posts")
-    post_ids = fields.One2many("social.publisher.post", "account_id")
+    post_ids = fields.One2many("social.publisher.post", "account_id", readonly=True)
     post_count = fields.Integer(compute="_compute_post_count")
 
     @api.depends("token_expires_at")

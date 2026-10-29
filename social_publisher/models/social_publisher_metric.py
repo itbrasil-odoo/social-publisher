@@ -20,16 +20,16 @@ class SocialPublisherMetricMixin(models.AbstractModel):
     _name = "social.publisher.metric.mixin"
     _description = "Social Publisher Metric Values"
 
-    impressions = fields.Integer(aggregator="sum")
-    members_reached = fields.Integer(string="Reach", aggregator="sum")
-    reactions = fields.Integer(aggregator="sum")
-    comments = fields.Integer(aggregator="sum")
-    reshares = fields.Integer(aggregator="sum")
-    saves = fields.Integer(aggregator="sum")
-    sends = fields.Integer(aggregator="sum")
-    link_clicks = fields.Integer(aggregator="sum")
-    followers_gained = fields.Integer(aggregator="sum")
-    profile_views = fields.Integer(aggregator="sum")
+    impressions = fields.Integer(aggregator="sum", readonly=True)
+    members_reached = fields.Integer(string="Reach", aggregator="sum", readonly=True)
+    reactions = fields.Integer(aggregator="sum", readonly=True)
+    comments = fields.Integer(aggregator="sum", readonly=True)
+    reshares = fields.Integer(aggregator="sum", readonly=True)
+    saves = fields.Integer(aggregator="sum", readonly=True)
+    sends = fields.Integer(aggregator="sum", readonly=True)
+    link_clicks = fields.Integer(aggregator="sum", readonly=True)
+    followers_gained = fields.Integer(aggregator="sum", readonly=True)
+    profile_views = fields.Integer(aggregator="sum", readonly=True)
 
     def _metric_values(self, data):
         return {key: data.get(key) or 0 for key in METRIC_FIELDS}
@@ -43,20 +43,28 @@ class SocialPublisherMetric(models.Model):
     _description = "Social Publisher Metric Snapshot"
     _order = "date desc, id desc"
 
-    date = fields.Datetime(required=True, default=fields.Datetime.now, index=True)
+    date = fields.Datetime(
+        required=True, default=fields.Datetime.now, index=True, readonly=True
+    )
     scope = fields.Selection(
         [("post", "Post"), ("account", "Account")],
         required=True,
         default="post",
+        readonly=True,
     )
-    period_days = fields.Integer(help="Window covered by an account snapshot, in days.")
+    period_days = fields.Integer(
+        help="Window covered by an account snapshot, in days.", readonly=True
+    )
     account_id = fields.Many2one(
         "social.publisher.account",
         required=True,
         ondelete="cascade",
         index=True,
+        readonly=True,
     )
-    post_id = fields.Many2one("social.publisher.post", ondelete="cascade", index=True)
+    post_id = fields.Many2one(
+        "social.publisher.post", ondelete="cascade", index=True, readonly=True
+    )
     company_id = fields.Many2one(
         related="account_id.company_id", store=True, index=True
     )
