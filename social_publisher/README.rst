@@ -33,7 +33,7 @@ post and per account.
 
 The module is network-agnostic: networks plug in as separate provider
 modules, such as ``social_publisher_linkedin``. It is multi-company and
-works on Odoo Community and Enterprise.
+built on Odoo Community: no Enterprise module is required.
 
 **Table of contents**
 
@@ -45,7 +45,7 @@ Configuration
 
 To configure this module, you need to:
 
-- Install a provider module, for example *Social Publisher - LinkedIn*.
+- Install a provider module, for example *Social Publisher LinkedIn*.
 - Go to *Settings > Users & Companies > Users* and give each person a
   *Social Publisher* role:
 

@@ -1,6 +1,6 @@
 To configure this module, you need to:
 
-- Install a provider module, for example *Social Publisher - LinkedIn*.
+- Install a provider module, for example *Social Publisher LinkedIn*.
 - Go to *Settings > Users & Companies > Users* and give each person a
   *Social Publisher* role:
   - **Writer** creates and edits drafts but cannot approve or publish. This is

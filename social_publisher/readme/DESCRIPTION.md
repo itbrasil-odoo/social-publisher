@@ -4,5 +4,5 @@ metrics of every published post are collected daily, with a history per post
 and per account.
 
 The module is network-agnostic: networks plug in as separate provider
-modules, such as `social_publisher_linkedin`. It is multi-company and works on
-Odoo Community and Enterprise.
+modules, such as `social_publisher_linkedin`. It is multi-company and built on Odoo Community: no Enterprise module is
+required.

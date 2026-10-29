@@ -9,7 +9,7 @@
 
 <!-- /!\ do not modify above this line -->
 
-Plan, approve, schedule and measure social media posts in Odoo, with a LinkedIn provider for profiles and company pages. Works on Community and Enterprise, and is multi-company.
+Plan, approve, schedule and measure social media posts in Odoo, with a LinkedIn provider for profiles and company pages. Built on Odoo Community (no Enterprise module required) and multi-company.
 
 ### Approval
 
@@ -58,8 +58,8 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[social_publisher](social_publisher/) | 19.0.1.3.2 |  | Plan, approve, schedule and measure social media posts
-[social_publisher_linkedin](social_publisher_linkedin/) | 19.0.1.3.3 |  | Publish to LinkedIn profiles and company pages, with analytics
+[social_publisher](social_publisher/) | 19.0.1.3.3 |  | Plan, approve, schedule and measure social media posts
+[social_publisher_linkedin](social_publisher_linkedin/) | 19.0.1.3.4 |  | Publish and measure LinkedIn posts via the LinkedIn API
 
 [//]: # (end addons)
 
