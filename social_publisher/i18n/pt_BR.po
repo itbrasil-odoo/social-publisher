@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 01:25+0000\n"
-"PO-Revision-Date: 2026-10-29 01:25+0000\n"
+"POT-Creation-Date: 2026-10-29 01:37+0000\n"
+"PO-Revision-Date: 2026-10-29 01:37+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -55,8 +55,8 @@ msgstr "Acesso expira em"
 #. module: social_publisher
 #. odoo-python
 #: code:addons/social_publisher/models/social_publisher_account.py:0
-msgid "Access for %s expires in less than %s days."
-msgstr "O acesso de %s expira em menos de %s dias."
+msgid "Access for %(scopes)s expires in less than %(days)s days."
+msgstr "O acesso de %(scopes)s expira em menos de %(days)s dias."
 
 #. module: social_publisher
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__account_id

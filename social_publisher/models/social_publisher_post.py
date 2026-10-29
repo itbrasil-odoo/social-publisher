@@ -1,6 +1,6 @@
 import logging
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -10,7 +10,13 @@ _logger = logging.getLogger(__name__)
 CONTENT_FIELDS = {"body", "image", "image_alt", "account_id", "locked_first_line"}
 LOCKED_WHEN_PUBLISHED = CONTENT_FIELDS | {"publish_at", "calendar_date"}
 # Calendar colour per state (Odoo colour picker indexes).
-STATE_COLORS = {"draft": 3, "approved": 4, "publishing": 7, "published": 10, "failed": 1}
+STATE_COLORS = {
+    "draft": 3,
+    "approved": 4,
+    "publishing": 7,
+    "published": 10,
+    "failed": 1,
+}
 MANAGER_GROUP = "social_publisher.group_social_publisher_manager"
 
 
@@ -44,10 +50,15 @@ class SocialPublisherPost(models.Model):
         index=True,
         check_company=True,
         default=lambda self: self.env["social.publisher.account"].search(
-            self.env["social.publisher.account"]._check_company_domain(self.env.company), limit=1
+            self.env["social.publisher.account"]._check_company_domain(
+                self.env.company
+            ),
+            limit=1,
         ),
     )
-    company_id = fields.Many2one(related="account_id.company_id", store=True, index=True)
+    company_id = fields.Many2one(
+        related="account_id.company_id", store=True, index=True
+    )
     provider = fields.Selection(related="account_id.provider")
     color = fields.Integer(related="account_id.color")
     state_color = fields.Integer(compute="_compute_state_color")
@@ -84,11 +95,14 @@ class SocialPublisherPost(models.Model):
     image_alt = fields.Char(string="Image Description")
     locked_first_line = fields.Char(
         string="Required Opening",
-        help="When set, the post is only published if its first paragraph matches this text "
+        help="When set, the post is only published if its first paragraph matches "
+        "this text "
         "exactly (for example, a hook fixed by an agency kit).",
     )
     tag_ids = fields.Many2many("social.publisher.tag", string="Tags")
-    lang = fields.Selection(_lang_get, string="Language", default=lambda self: self.env.lang)
+    lang = fields.Selection(
+        _lang_get, string="Language", default=lambda self: self.env.lang
+    )
     reference = fields.Char(
         help="Free reference, such as the kit number or the hook formula used.",
     )
@@ -97,19 +111,28 @@ class SocialPublisherPost(models.Model):
     external_url = fields.Char(string="Link", readonly=True, copy=False)
     failure_reason = fields.Text(readonly=True, copy=False)
     metrics_updated_at = fields.Datetime(readonly=True, copy=False)
-    metric_ids = fields.One2many("social.publisher.metric", "post_id", string="Metric History")
+    metric_ids = fields.One2many(
+        "social.publisher.metric", "post_id", string="Metric History"
+    )
     engagement_rate = fields.Float(compute="_compute_engagement_rate", digits=(16, 2))
 
     def _group_expand_states(self, states, domain):
         # "publishing" only lasts a few seconds: show it only when it holds a post.
-        return [key for key, _label in self._fields["state"].selection
-                if key != "publishing" or key in states]
+        return [
+            key
+            for key, _label in self._fields["state"].selection
+            if key != "publishing" or key in states
+        ]
 
     @api.depends("body")
     def _compute_name(self):
         for post in self:
             hook = first_paragraph(post.body)
-            post.name = (hook[:77] + "...") if len(hook) > 80 else hook or _("New post")
+            post.name = (
+                (hook[:77] + "...")
+                if len(hook) > 80
+                else hook or self.env._("New post")
+            )
 
     @api.depends("body")
     def _compute_char_count(self):
@@ -119,7 +142,9 @@ class SocialPublisherPost(models.Model):
     @api.depends("publish_at", "published_at", "state")
     def _compute_calendar_date(self):
         for post in self:
-            post.calendar_date = post.published_at if post.state == "published" else post.publish_at
+            post.calendar_date = (
+                post.published_at if post.state == "published" else post.publish_at
+            )
 
     def _inverse_calendar_date(self):
         # Dragging a post in the calendar reschedules it.
@@ -136,7 +161,9 @@ class SocialPublisherPost(models.Model):
     def _compute_engagement_rate(self):
         for post in self:
             interactions = post.reactions + post.comments + post.reshares
-            post.engagement_rate = 100.0 * interactions / post.impressions if post.impressions else 0.0
+            post.engagement_rate = (
+                100.0 * interactions / post.impressions if post.impressions else 0.0
+            )
 
     # --- guards ------------------------------------------------------------
 
@@ -148,7 +175,9 @@ class SocialPublisherPost(models.Model):
         if not self._is_manager() and any(
             vals.get("state", "draft") != "draft" for vals in vals_list
         ):
-            raise AccessError(_("Only a Social Publisher manager can approve posts."))
+            raise AccessError(
+                self.env._("Only a Social Publisher manager can approve posts.")
+            )
         return super().create(vals_list)
 
     def write(self, vals):
@@ -156,12 +185,20 @@ class SocialPublisherPost(models.Model):
             return super().write(vals)
         if "state" in vals and vals["state"] != "draft":
             if vals["state"] != "approved" or not self._is_manager():
-                raise AccessError(_("Only a Social Publisher manager can approve posts; "
-                                    "publishing states are set by the system."))
+                raise AccessError(
+                    self.env._(
+                        "Only a Social Publisher manager can approve posts; "
+                        "publishing states are set by the system."
+                    )
+                )
         locked = LOCKED_WHEN_PUBLISHED.intersection(vals)
         if locked and self.filtered(lambda p: p.state in ("published", "publishing")):
-            raise UserError(_("A published post can no longer be changed on the network "
-                              "from here."))
+            raise UserError(
+                self.env._(
+                    "A published post can no longer be changed on the network from "
+                    "here."
+                )
+            )
         resets = CONTENT_FIELDS.intersection(vals) or (
             "publish_at" in vals and not self._is_manager()
         )
@@ -169,7 +206,11 @@ class SocialPublisherPost(models.Model):
             approved = self.filtered(lambda p: p.state == "approved")
             if approved:
                 for post in approved:
-                    post.message_post(body=_("Content changed after approval: back to draft."))
+                    post.message_post(
+                        body=self.env._(
+                            "Content changed after approval: back to draft."
+                        )
+                    )
                 super(SocialPublisherPost, approved).write({"state": "draft"})
         return super().write(vals)
 
@@ -179,53 +220,76 @@ class SocialPublisherPost(models.Model):
     @api.ondelete(at_uninstall=False)
     def _unlink_except_published(self):
         if self.filtered(lambda p: p.state in ("published", "publishing")):
-            raise UserError(_("Published posts cannot be deleted; archive them on the network."))
+            raise UserError(
+                self.env._(
+                    "Published posts cannot be deleted; archive them on the network."
+                )
+            )
 
     def _check_publishable(self):
         for post in self:
             body = (post.body or "").strip()
             if not body:
-                raise ValidationError(_("The post is empty."))
+                raise ValidationError(self.env._("The post is empty."))
             if post.max_length and len(body) > post.max_length:
                 raise ValidationError(
-                    _("The post has %(count)s characters; %(network)s allows %(max)s.",
-                      count=len(body), network=post.account_id.name, max=post.max_length)
+                    self.env._(
+                        "The post has %(count)s characters; %(network)s allows "
+                        "%(max)s.",
+                        count=len(body),
+                        network=post.account_id.name,
+                        max=post.max_length,
+                    )
                 )
             if post.locked_first_line and first_paragraph(body) != first_paragraph(
                 post.locked_first_line
             ):
                 raise ValidationError(
-                    _("The first paragraph was changed. It must be exactly:\n%s",
-                      post.locked_first_line)
+                    self.env._(
+                        "The first paragraph was changed. It must be exactly:\n%s",
+                        post.locked_first_line,
+                    )
                 )
             if post.account_id.connection_state == "disconnected":
-                raise ValidationError(_("Connect the account %s first.", post.account_id.name))
+                raise ValidationError(
+                    self.env._("Connect the account %s first.", post.account_id.name)
+                )
 
     # --- actions -----------------------------------------------------------
 
     def action_approve(self):
         if not self._is_manager():
-            raise AccessError(_("Only a Social Publisher manager can approve posts."))
+            raise AccessError(
+                self.env._("Only a Social Publisher manager can approve posts.")
+            )
         drafts = self.filtered(lambda p: p.state in ("draft", "failed"))
         drafts._check_publishable()
         drafts.write({"state": "approved"})
 
     def action_reset_draft(self):
-        self.filtered(lambda p: p.state in ("approved", "failed")).write({"state": "draft"})
+        self.filtered(lambda p: p.state in ("approved", "failed")).write(
+            {"state": "draft"}
+        )
 
     def action_publish_now(self):
         if not self._is_manager():
-            raise AccessError(_("Only a Social Publisher manager can publish posts."))
+            raise AccessError(
+                self.env._("Only a Social Publisher manager can publish posts.")
+            )
         if self.filtered(lambda p: p.state != "approved"):
-            raise UserError(_("Only approved posts can be published."))
+            raise UserError(self.env._("Only approved posts can be published."))
         self._publish()
 
     def action_refresh_metrics(self):
         posts = self.filtered(lambda p: p.state == "published" and p.external_id)
         for account in posts.account_id:
             if not account._can_fetch_metrics():
-                raise UserError(_("Connect the metrics access of %s first.", account.name))
-            account._store_post_metrics(posts.filtered(lambda p: p.account_id == account))
+                raise UserError(
+                    self.env._("Connect the metrics access of %s first.", account.name)
+                )
+            account._store_post_metrics(
+                posts.filtered_domain([("account_id", "=", account.id)])
+            )
 
     def action_open_external(self):
         self.ensure_one()
@@ -260,26 +324,35 @@ class SocialPublisherPost(models.Model):
                 _logger.warning("Publishing post %s failed", post.id, exc_info=True)
                 post._mark_failed(str(error))
             else:
-                post._internal_write({
-                    "state": "published",
-                    "published_at": fields.Datetime.now(),
-                    "external_id": result.get("external_id"),
-                    "external_url": result.get("url"),
-                })
-                post.message_post(body=_("Published: %s", result.get("url") or result.get("external_id")))
+                post._internal_write(
+                    {
+                        "state": "published",
+                        "published_at": fields.Datetime.now(),
+                        "external_id": result.get("external_id"),
+                        "external_url": result.get("url"),
+                    }
+                )
+                post.message_post(
+                    body=self.env._(
+                        "Published: %s", result.get("url") or result.get("external_id")
+                    )
+                )
             if commit:
                 self.env["ir.cron"]._commit_progress(processed=1)
 
     def _mark_failed(self, reason):
         self._internal_write({"state": "failed", "failure_reason": reason})
-        self.message_post(body=_("Publication failed: %s", reason))
+        self.message_post(body=self.env._("Publication failed: %s", reason))
 
     @api.model
     def _cron_publish_due(self):
-        due = self.search([
-            ("state", "=", "approved"),
-            ("publish_at", "!=", False),
-            ("publish_at", "<=", fields.Datetime.now()),
-        ], order="publish_at")
+        due = self.search(
+            [
+                ("state", "=", "approved"),
+                ("publish_at", "!=", False),
+                ("publish_at", "<=", fields.Datetime.now()),
+            ],
+            order="publish_at",
+        )
         self.env["ir.cron"]._commit_progress(remaining=len(due))
         due._publish(commit=True)

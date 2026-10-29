@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 TOKEN_WARNING_DAYS = 7
@@ -26,7 +26,8 @@ class SocialPublisherAccount(models.Model):
         default=lambda self: self.env.company,
         index=True,
         tracking=True,
-        help="Leave empty to share the account (for example a personal profile) with every "
+        help="Leave empty to share the account (for example a personal profile) with "
+        "every "
         "company.",
     )
     sequence = fields.Integer(default=10)
@@ -39,7 +40,9 @@ class SocialPublisherAccount(models.Model):
         default=lambda self: self.env.user,
         help="Receives the reminder to reconnect before the access expires.",
     )
-    token_expires_at = fields.Datetime(string="Access Expires", readonly=True, copy=False)
+    token_expires_at = fields.Datetime(
+        string="Access Expires", readonly=True, copy=False
+    )
     metrics_expires_at = fields.Datetime(
         string="Metrics Access Expires",
         readonly=True,
@@ -57,9 +60,12 @@ class SocialPublisherAccount(models.Model):
     metrics_window_days = fields.Integer(
         string="Metrics Window (days)",
         default=14,
-        help="The daily sync refreshes the posts published in this many days; older posts "
-        "keep their last numbers (use Refresh Metrics on a post to update it). Networks limit "
-        "API calls per day, and a post's numbers settle after a week or two. 0 = all posts.",
+        help="The daily sync refreshes the posts published in this many days; older "
+        "posts "
+        "keep their last numbers (use Refresh Metrics on a post to update it). "
+        "Networks limit "
+        "API calls per day, and a post's numbers settle after a week or two. 0 = all "
+        "posts.",
     )
     max_length = fields.Integer(compute="_compute_max_length")
     can_import_posts = fields.Boolean(compute="_compute_can_import_posts")
@@ -85,7 +91,9 @@ class SocialPublisherAccount(models.Model):
 
     def _compute_can_import_posts(self):
         for account in self:
-            account.can_import_posts = account._call_provider("can_import_posts", default=False)
+            account.can_import_posts = account._call_provider(
+                "can_import_posts", default=False
+            )
 
     def _compute_post_count(self):
         counts = dict(
@@ -100,13 +108,18 @@ class SocialPublisherAccount(models.Model):
 
     def _call_provider(self, hook, *args, default=None, **kwargs):
         self.ensure_one()
-        method = getattr(self, f"_{self.provider}_{hook}", None) if self.provider else None
+        method = (
+            getattr(self, f"_{self.provider}_{hook}", None) if self.provider else None
+        )
         if method is None:
             if default is not None:
                 return default
             raise UserError(
-                _("The %(provider)s provider does not support '%(hook)s'.",
-                  provider=self.provider, hook=hook)
+                self.env._(
+                    "The %(provider)s provider does not support '%(hook)s'.",
+                    provider=self.provider,
+                    hook=hook,
+                )
             )
         return method(*args, **kwargs)
 
@@ -127,9 +140,13 @@ class SocialPublisherAccount(models.Model):
         """Bring the posts already on the network into Odoo as published."""
         self.ensure_one()
         if not self.can_import_posts:
-            raise UserError(_("This account cannot list its posts on the network."))
+            raise UserError(
+                self.env._("This account cannot list its posts on the network.")
+            )
         posts = self._call_provider("import_posts")
-        self.message_post(body=_("%s posts imported from the network.", len(posts)))
+        self.message_post(
+            body=self.env._("%s posts imported from the network.", len(posts))
+        )
         return self.action_view_posts()
 
     def _publish(self, post):
@@ -148,7 +165,9 @@ class SocialPublisherAccount(models.Model):
     def _metrics_posts(self):
         """Published posts the daily sync refreshes (see metrics_window_days)."""
         self.ensure_one()
-        posts = self.post_ids.filtered(lambda p: p.state == "published" and p.external_id)
+        posts = self.post_ids.filtered(
+            lambda p: p.state == "published" and p.external_id
+        )
         if self.metrics_window_days > 0:
             since = fields.Datetime.now() - timedelta(days=self.metrics_window_days)
             posts = posts.filtered(lambda p: p.published_at and p.published_at >= since)
@@ -165,18 +184,22 @@ class SocialPublisherAccount(models.Model):
 
     def _store_post_metrics(self, posts, now=None):
         self.ensure_one()
-        Metric = self.env["social.publisher.metric"].sudo()  # system data, writers may refresh
+        Metric = self.env[
+            "social.publisher.metric"
+        ].sudo()  # system data, writers may refresh
         now = now or fields.Datetime.now()
         for post_id, data in self._fetch_posts_metrics(posts).items():
             post = posts.browse(post_id)
             values = Metric._metric_values(data)
-            Metric.create({
-                "scope": "post",
-                "account_id": self.id,
-                "post_id": post.id,
-                "date": now,
-                **values,
-            })
+            Metric.create(
+                {
+                    "scope": "post",
+                    "account_id": self.id,
+                    "post_id": post.id,
+                    "date": now,
+                    **values,
+                }
+            )
             post.write({**values, "metrics_updated_at": now})
 
     def _sync_metrics(self):
@@ -185,23 +208,29 @@ class SocialPublisherAccount(models.Model):
         now = fields.Datetime.now()
         for account in self:
             data = account._fetch_metrics(days=ACCOUNT_METRICS_DAYS)
-            Metric.create({
-                "scope": "account",
-                "account_id": account.id,
-                "date": now,
-                "period_days": ACCOUNT_METRICS_DAYS,
-                **Metric._metric_values(data),
-            })
+            Metric.create(
+                {
+                    "scope": "account",
+                    "account_id": account.id,
+                    "date": now,
+                    "period_days": ACCOUNT_METRICS_DAYS,
+                    **Metric._metric_values(data),
+                }
+            )
             account._store_post_metrics(account._metrics_posts(), now=now)
 
     def action_sync_metrics(self):
         if not all(self.mapped(lambda a: a._can_fetch_metrics())):
-            raise UserError(_("Connect the metrics access of this account first."))
+            raise UserError(
+                self.env._("Connect the metrics access of this account first.")
+            )
         self._sync_metrics()
 
     @api.model
     def _cron_sync_metrics(self):
-        accounts = self.search([]).filtered(lambda a: a._can_fetch_metrics())
+        accounts = self.search([("provider", "!=", False)]).filtered(
+            lambda a: a._can_fetch_metrics()
+        )
         for account in accounts:
             account._sync_metrics()
             self.env["ir.cron"]._commit_progress(processed=1)
@@ -213,24 +242,27 @@ class SocialPublisherAccount(models.Model):
         """Leave a to-do for the responsible before access runs out."""
         limit = fields.Datetime.now() + timedelta(days=TOKEN_WARNING_DAYS)
         todo = self.env.ref("mail.mail_activity_data_todo")
-        for account in self.search([]):
+        for account in self.search([("provider", "!=", False)]):
             expiring = [
                 label
                 for label, when in (
-                    (_("publishing"), account.token_expires_at),
-                    (_("metrics"), account.metrics_expires_at),
+                    (self.env._("publishing"), account.token_expires_at),
+                    (self.env._("metrics"), account.metrics_expires_at),
                 )
                 if when and when <= limit
             ]
             if not expiring or not account.user_id:
                 continue
-            summary = _("Reconnect %s", account.name)
-            if account.activity_ids.filtered(lambda a: a.summary == summary):
+            summary = self.env._("Reconnect %s", account.name)
+            if account.activity_ids.filtered_domain([("summary", "=", summary)]):
                 continue
             account.activity_schedule(
                 activity_type_id=todo.id,
                 summary=summary,
-                note=_("Access for %s expires in less than %s days.",
-                       ", ".join(expiring), TOKEN_WARNING_DAYS),
+                note=self.env._(
+                    "Access for %(scopes)s expires in less than %(days)s days.",
+                    scopes=", ".join(expiring),
+                    days=TOKEN_WARNING_DAYS,
+                ),
                 user_id=account.user_id.id,
             )

@@ -57,5 +57,7 @@ class SocialPublisherMetric(models.Model):
         index=True,
     )
     post_id = fields.Many2one("social.publisher.post", ondelete="cascade", index=True)
-    company_id = fields.Many2one(related="account_id.company_id", store=True, index=True)
+    company_id = fields.Many2one(
+        related="account_id.company_id", store=True, index=True
+    )
     tag_ids = fields.Many2many(related="post_id.tag_ids", string="Tags")

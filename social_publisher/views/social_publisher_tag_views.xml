@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="social_publisher_tag_view_list" model="ir.ui.view">
         <field name="name">social.publisher.tag.list</field>
         <field name="model">social.publisher.tag</field>
         <field name="arch" type="xml">
             <list string="Tags" editable="bottom">
-                <field name="name"/>
-                <field name="color" widget="color_picker"/>
+                <field name="name" />
+                <field name="color" widget="color_picker" />
             </list>
         </field>
     </record>

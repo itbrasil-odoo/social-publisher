@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="social_publisher_account_view_form" model="ir.ui.view">
         <field name="name">social.publisher.account.form</field>
@@ -6,44 +6,76 @@
         <field name="arch" type="xml">
             <form string="Account">
                 <header>
-                    <button name="action_connect" type="object" string="Connect"
-                            class="btn-primary" invisible="connection_state == 'connected'"/>
-                    <button name="action_connect" type="object" string="Reconnect"
-                            invisible="connection_state != 'connected'"/>
-                    <button name="action_sync_metrics" type="object" string="Sync Metrics"
-                            invisible="not metrics_expires_at"/>
-                    <button name="action_import_posts" type="object" string="Import Posts"
-                            invisible="not can_import_posts"/>
-                    <field name="connection_state" widget="statusbar"/>
+                    <button
+                        name="action_connect"
+                        type="object"
+                        string="Connect"
+                        class="btn-primary"
+                        invisible="connection_state == 'connected'"
+                    />
+                    <button
+                        name="action_connect"
+                        type="object"
+                        string="Reconnect"
+                        invisible="connection_state != 'connected'"
+                    />
+                    <button
+                        name="action_sync_metrics"
+                        type="object"
+                        string="Sync Metrics"
+                        invisible="not metrics_expires_at"
+                    />
+                    <button
+                        name="action_import_posts"
+                        type="object"
+                        string="Import Posts"
+                        invisible="not can_import_posts"
+                    />
+                    <field name="connection_state" widget="statusbar" />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_posts" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
-                            <field name="post_count" widget="statinfo" string="Posts"/>
+                        <button
+                            name="action_view_posts"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o"
+                        >
+                            <field name="post_count" widget="statinfo" string="Posts" />
                         </button>
                     </div>
-                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="text-bg-danger"
+                        invisible="active"
+                    />
                     <div class="oe_title">
-                        <h1><field name="name" placeholder="e.g. My LinkedIn profile"/></h1>
+                        <h1>
+                            <field name="name" placeholder="e.g. My LinkedIn profile" />
+                        </h1>
                     </div>
                     <group name="main">
                         <group>
-                            <field name="provider"/>
-                            <field name="user_id"/>
-                            <field name="company_id" groups="base.group_multi_company"
-                                   placeholder="Shared with all companies"/>
-                            <field name="active" invisible="1"/>
+                            <field name="provider" />
+                            <field name="user_id" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                                placeholder="Shared with all companies"
+                            />
+                            <field name="active" invisible="1" />
                         </group>
                         <group>
-                            <field name="token_expires_at"/>
-                            <field name="metrics_expires_at"/>
-                            <field name="metrics_window_days"/>
-                            <field name="color" widget="color_picker"/>
+                            <field name="token_expires_at" />
+                            <field name="metrics_expires_at" />
+                            <field name="metrics_window_days" />
+                            <field name="color" widget="color_picker" />
                         </group>
                     </group>
-                    <notebook name="provider"/>
+                    <notebook name="provider" />
                 </sheet>
-                <chatter/>
+                <chatter />
             </form>
         </field>
     </record>
@@ -53,16 +85,23 @@
         <field name="model">social.publisher.account</field>
         <field name="arch" type="xml">
             <list string="Accounts">
-                <field name="sequence" widget="handle"/>
-                <field name="name"/>
-                <field name="provider"/>
-                <field name="company_id" groups="base.group_multi_company" optional="show"/>
-                <field name="connection_state" widget="badge"
-                       decoration-success="connection_state == 'connected'"
-                       decoration-warning="connection_state == 'expiring'"
-                       decoration-danger="connection_state == 'disconnected'"/>
-                <field name="token_expires_at"/>
-                <field name="metrics_expires_at"/>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="provider" />
+                <field
+                    name="company_id"
+                    groups="base.group_multi_company"
+                    optional="show"
+                />
+                <field
+                    name="connection_state"
+                    widget="badge"
+                    decoration-success="connection_state == 'connected'"
+                    decoration-warning="connection_state == 'expiring'"
+                    decoration-danger="connection_state == 'disconnected'"
+                />
+                <field name="token_expires_at" />
+                <field name="metrics_expires_at" />
             </list>
         </field>
     </record>
