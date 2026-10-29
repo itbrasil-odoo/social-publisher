@@ -2,9 +2,9 @@
    :target: https://itbrasil.com.br
    :alt: IT Brasil
 
-===========================
-Social Publisher - LinkedIn
-===========================
+=========================
+Social Publisher LinkedIn
+=========================
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

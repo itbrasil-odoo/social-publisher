@@ -1,8 +1,8 @@
 {
-    "name": "Social Publisher - LinkedIn",
-    "version": "19.0.1.3.3",
+    "name": "Social Publisher LinkedIn",
+    "version": "19.0.1.3.4",
     "category": "Marketing/Social Marketing",
-    "summary": "Publish to LinkedIn profiles and company pages, with analytics",
+    "summary": "Publish and measure LinkedIn posts via the LinkedIn API",
     "license": "LGPL-3",
     "author": "IT Brasil, Renan Teixeira",
     "website": "https://github.com/itbrasil-odoo/social-publisher",
