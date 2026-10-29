@@ -54,7 +54,12 @@ gets a to-do a week before they expire.
 
 [//]: # (addons)
 
-This part will be replaced when running the itbr-gen-addons-table script from IT Brasil/maintainer-tools.
+Available addons
+----------------
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[social_publisher](social_publisher/) | 19.0.1.3.1 |  | Plan, approve, schedule and measure social media posts
+[social_publisher_linkedin](social_publisher_linkedin/) | 19.0.1.3.1 |  | Publish to LinkedIn profiles and company pages, with analytics
 
 [//]: # (end addons)
 
