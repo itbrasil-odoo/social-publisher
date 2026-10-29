@@ -1,0 +1,28 @@
+# Do NOT update manually; changes here will be overwritten by Copier
+_commit: 71f88ac
+_src_path: https://github.com/itbrasil-odoo/itbrasil-addons-repo-template.git
+additional_ruff_rules: []
+banner_url: https://github.com/itbrasil-odoo/.github/raw/main/readme-banner-image.png
+enable_checklog_odoo: true
+generate_requirements_txt: true
+github_check_license: true
+github_ci_extra_env: {}
+github_enable_codecov: false
+github_enable_makepot: false
+github_enable_stale_action: true
+github_enforce_dev_status_compatibility: true
+include_wkhtmltopdf: false
+odoo_test_flavor: Both
+odoo_version: 19.0
+org_name: IT Brasil
+org_slug: itbrasil-odoo
+postgres_image: ''
+rebel_module_groups: []
+repo_description: Plan, approve, schedule and measure social media posts in Odoo,
+    with a LinkedIn provider for profiles and company pages.
+repo_name: Social Publisher
+repo_slug: social-publisher
+repo_website: https://github.com/itbrasil-odoo/social-publisher
+use_pyproject_toml: true
+use_ruff: true
+

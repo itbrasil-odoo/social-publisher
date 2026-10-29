@@ -1,14 +1,17 @@
+
+
 # Social Publisher
+<!-- /!\ Non OCA Context : Set here the badge of your runbot / runboat instance. -->
+[![Pre-commit Status](https://github.com/itbrasil-odoo/social-publisher/actions/workflows/pre-commit.yml/badge.svg?branch=19.0)](https://github.com/itbrasil-odoo/social-publisher/actions/workflows/pre-commit.yml?query=branch%3A19.0)
+[![Build Status](https://github.com/itbrasil-odoo/social-publisher/actions/workflows/test.yml/badge.svg?branch=19.0)](https://github.com/itbrasil-odoo/social-publisher/actions/workflows/test.yml?query=branch%3A19.0)
+[![codecov](https://codecov.io/gh/itbrasil-odoo/social-publisher/branch/19.0/graph/badge.svg)](https://codecov.io/gh/itbrasil-odoo/social-publisher)
+<!-- /!\ Non OCA Context : Set here the badge of your translation instance. -->
 
-Odoo 19 modules to plan, approve, schedule and measure social media posts.
-Works on Community and Enterprise, and is multi-company.
+<!-- /!\ do not modify above this line -->
 
-| Module | What it does |
-|---|---|
-| `social_publisher` | Posts with calendar (drag to reschedule), kanban by state, metrics history; Writer/Manager approval; crons that publish scheduled posts, sync metrics and warn before access expires. Network-agnostic. |
-| `social_publisher_linkedin` | LinkedIn provider: personal profiles and company pages, OAuth from the account form, images, metrics, and importing a company page's existing posts. |
+Plan, approve, schedule and measure social media posts in Odoo, with a LinkedIn provider for profiles and company pages. Works on Community and Enterprise, and is multi-company.
 
-## Approval
+### Approval
 
 - **Writer** creates and edits drafts but cannot approve or publish: the right
   group for an AI agent connected to Odoo (for example through an MCP server).
@@ -16,7 +19,7 @@ Works on Community and Enterprise, and is multi-company.
   approved post sends it back to draft.
 - A failed publication becomes `failed` and is never retried automatically.
 
-## LinkedIn setup
+### LinkedIn setup
 
 Create the apps at <https://www.linkedin.com/developers/apps> and add the
 redirect URL shown on the account form (`https://<odoo>/social_publisher_linkedin/callback`)
@@ -45,6 +48,25 @@ window short until the app reaches the Standard tier.
 Access tokens last about 60 days and are not refreshed; the responsible user
 gets a to-do a week before they expire.
 
-## License
+<!-- /!\ do not modify below this line -->
 
-LGPL-3.
+<!-- prettier-ignore-start -->
+
+[//]: # (addons)
+
+This part will be replaced when running the itbr-gen-addons-table script from IT Brasil/maintainer-tools.
+
+[//]: # (end addons)
+
+<!-- prettier-ignore-end -->
+
+## Licenses
+
+This repository is licensed under [LGPL-3.0](LICENSE).
+
+However, each module can have a totally different license, as long as they adhere to IT Brasil
+policy. Consult each module's `__manifest__.py` file, which contains a `license` key
+that explains its license.
+
+----
+This repository is maintained by [IT Brasil](https://github.com/itbrasil-odoo), an Odoo partner since 2018.
