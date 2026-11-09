@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 22:20+0000\n"
-"PO-Revision-Date: 2026-10-28 22:20+0000\n"
+"POT-Creation-Date: 2026-11-09 21:35+0000\n"
+"PO-Revision-Date: 2026-11-09 21:35+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -244,6 +244,12 @@ msgstr "A conexão com o LinkedIn falhou: %s"
 #. module: social_publisher_linkedin
 #. odoo-python
 #: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "LinkedIn could not process the video: %s"
+msgstr "O LinkedIn não conseguiu processar o vídeo: %s"
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
 msgid "LinkedIn refused the code (%(status)s): %(body)s"
 msgstr "O LinkedIn recusou o código (%(status)s): %(body)s"
 
@@ -348,6 +354,12 @@ msgstr "O membro conectado não administra nenhuma página de empresa."
 #. module: social_publisher_linkedin
 #. odoo-python
 #: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "The video of this post is not ready on LinkedIn yet."
+msgstr "O vídeo deste post ainda não está pronto no LinkedIn."
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
 msgid ""
 "This authorization link is no longer valid. Start again from the Connect "
 "button."
@@ -368,3 +380,9 @@ msgstr "URN"
 #: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
 msgid "Unsupported image format %s (use PNG, JPEG or GIF)."
 msgstr "Formato de imagem não suportado: %s (use PNG, JPEG ou GIF)."
+
+#. module: social_publisher_linkedin
+#. odoo-python
+#: code:addons/social_publisher_linkedin/models/social_publisher_account.py:0
+msgid "Video upload failed (%(status)s): %(body)s"
+msgstr "O envio do vídeo falhou (%(status)s): %(body)s"

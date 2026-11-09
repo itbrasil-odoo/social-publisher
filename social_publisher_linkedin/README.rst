@@ -28,8 +28,8 @@ Social Publisher LinkedIn
 
 LinkedIn provider for *Social Publisher*. It connects personal profiles
 and company pages through LinkedIn's official API, publishes approved
-posts with an optional image and brings the analytics of every post back
-into Odoo.
+posts with an optional image or video and brings the analytics of every
+post back into Odoo.
 
 For company pages it can also import the posts that are already on the
 page.
@@ -78,6 +78,8 @@ To use this module, you need to:
 - Write, approve and schedule posts as described in *Social Publisher*;
   posts of a LinkedIn account are published to that profile or page.
 - Hashtags written as ``#Tag`` stay clickable on LinkedIn.
+- Videos must be MP4, from 75 KB to 500 MB and from 3 seconds to 30
+  minutes (LinkedIn checks the duration while processing).
 - On a company page account, click **Import Posts** to bring the posts
   that are already on the page into Odoo, with their metrics.
 - **Sync Metrics** on the account, or **Refresh Metrics** on a post,

@@ -1,6 +1,6 @@
 {
     "name": "Social Publisher LinkedIn",
-    "version": "19.0.1.3.4",
+    "version": "19.0.1.4.0",
     "category": "Marketing/Social Marketing",
     "summary": "Publish and measure LinkedIn posts via the LinkedIn API",
     "license": "LGPL-3",

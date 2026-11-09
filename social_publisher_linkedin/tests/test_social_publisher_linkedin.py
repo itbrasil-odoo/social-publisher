@@ -56,6 +56,11 @@ class TestSocialPublisherLinkedin(TransactionCase):
             }
         )
         cls.Post = cls.env["social.publisher.post"]
+        # The crons act on every approved post: keep posts already in the
+        # database (demo or real data) out of these tests.
+        cls.Post.search([("state", "=", "approved")])._internal_write(
+            {"state": "draft", "media_state": False}
+        )
 
     def _draft(self, **vals):
         return self.Post.with_user(self.writer).create(
@@ -184,6 +189,153 @@ class TestSocialPublisherLinkedin(TransactionCase):
         with self._no_commit(), patch(f"{MODULE}.requests.request") as call:
             self.Post._cron_publish_due()
         call.assert_not_called()
+
+    # --- video -------------------------------------------------------------
+
+    VIDEO = b"\x00\x00\x00\x18ftypmp42" + b"\x00" * (80 * 1024)
+
+    def _video_post(self, **vals):
+        return self._draft(
+            video=base64.b64encode(self.VIDEO),
+            video_filename="clip.mp4",
+            publish_at=fields.Datetime.now() - timedelta(minutes=1),
+            **vals,
+        )
+
+    def _video_api(self, status):
+        """Fake LinkedIn: videos endpoints plus post creation."""
+        size = len(self.VIDEO)
+        calls = []
+
+        def fake(method, url, **kwargs):
+            calls.append((method, url, kwargs.get("json")))
+            if "initializeUpload" in url:
+                return _response(
+                    200,
+                    {
+                        "value": {
+                            "video": "urn:li:video:V1",
+                            "uploadToken": "utok",
+                            "uploadInstructions": [
+                                {
+                                    "firstByte": 0,
+                                    "lastByte": 49999,
+                                    "uploadUrl": "https://up/1",
+                                },
+                                {
+                                    "firstByte": 50000,
+                                    "lastByte": size - 1,
+                                    "uploadUrl": "https://up/2",
+                                },
+                            ],
+                        }
+                    },
+                )
+            if "finalizeUpload" in url:
+                return _response(200, {})
+            if "/rest/videos/" in url:
+                return _response(
+                    200, {"status": status[0], "processingFailureReason": "BAD_CODEC"}
+                )
+            if url.endswith("/rest/posts"):
+                return _response(201, headers={"x-restli-id": "urn:li:share:77"})
+            raise AssertionError(url)
+
+        return fake, calls
+
+    def test_video_flow(self):
+        post = self._video_post()
+        self.assertTrue(post.has_video)
+        post.with_user(self.manager).action_approve()
+        self.assertEqual(post.media_state, "pending")
+        status = ["PROCESSING"]
+        fake, calls = self._video_api(status)
+        puts = [
+            _response(200, headers={"etag": '"e1"'}),
+            _response(200, headers={"etag": '"e2"'}),
+        ]
+        with (
+            self._no_commit(),
+            patch(f"{MODULE}.requests.request", side_effect=fake),
+            patch(f"{MODULE}.requests.put", side_effect=puts) as put,
+        ):
+            self.Post._cron_publish_due()
+        self.assertEqual(post.state, "approved", "not published while processing")
+        self.assertEqual(post.media_state, "processing")
+        self.assertEqual(post.media_external_id, "urn:li:video:V1")
+        self.assertEqual(
+            [len(c.kwargs["data"]) for c in put.call_args_list],
+            [50000, len(self.VIDEO) - 50000],
+        )
+        init = next(c[2] for c in calls if "initializeUpload" in c[1])
+        self.assertEqual(
+            init["initializeUploadRequest"]["fileSizeBytes"], len(self.VIDEO)
+        )
+        final = next(c[2] for c in calls if "finalizeUpload" in c[1])
+        self.assertEqual(
+            final["finalizeUploadRequest"]["uploadedPartIds"], ["e1", "e2"]
+        )
+        self.assertFalse([c for c in calls if c[1].endswith("/rest/posts")])
+        with self.assertRaises(UserError):
+            post.with_user(self.manager).action_publish_now()
+
+        status[0] = "AVAILABLE"
+        with (
+            self._no_commit(),
+            patch(f"{MODULE}.requests.request", side_effect=fake),
+            patch(f"{MODULE}.requests.put") as put,
+        ):
+            self.Post._cron_publish_due()
+        put.assert_not_called()
+        self.assertEqual(post.state, "published")
+        sent = next(c[2] for c in calls if c[1].endswith("/rest/posts"))
+        self.assertEqual(sent["content"], {"media": {"id": "urn:li:video:V1"}})
+
+    def test_video_processing_failed(self):
+        post = self._video_post()
+        post.with_user(self.manager).action_approve()
+        fake, calls = self._video_api(["PROCESSING_FAILED"])
+        puts = [
+            _response(200, headers={"etag": '"e1"'}),
+            _response(200, headers={"etag": '"e2"'}),
+        ]
+        with (
+            self._no_commit(),
+            patch(f"{MODULE}.requests.request", side_effect=fake),
+            patch(f"{MODULE}.requests.put", side_effect=puts),
+            self.assertLogs(
+                "odoo.addons.social_publisher.models.social_publisher_post", "WARNING"
+            ),
+        ):
+            self.Post._cron_publish_due()
+        self.assertEqual(post.state, "failed")
+        self.assertEqual(post.media_state, "failed")
+        self.assertIn("BAD_CODEC", post.failure_reason)
+
+    def test_video_validation(self):
+        with self.assertRaises(ValidationError):
+            self._video_post(image=PNG)
+        not_mp4 = self._draft(
+            video=base64.b64encode(b"x" * (80 * 1024)), video_filename="clip.mov"
+        )
+        with self.assertRaises(ValidationError):
+            not_mp4.with_user(self.manager).action_approve()
+        tiny = self._draft(video=base64.b64encode(self.VIDEO[:2000]))
+        with self.assertRaises(ValidationError):
+            tiny.with_user(self.manager).action_approve()
+
+    def test_video_change_resets(self):
+        post = self._video_post()
+        post.with_user(self.manager).action_approve()
+        post._internal_write(
+            {"media_state": "ready", "media_external_id": "urn:li:video:V1"}
+        )
+        post.with_user(self.manager).write(
+            {"video": base64.b64encode(self.VIDEO + b"1")}
+        )
+        self.assertEqual(post.state, "draft")
+        self.assertFalse(post.media_state)
+        self.assertFalse(post.media_external_id)
 
     # --- OAuth -------------------------------------------------------------
 

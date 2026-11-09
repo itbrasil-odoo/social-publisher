@@ -63,6 +63,10 @@ ORGANIZATION_METRICS = {
     "clickCount": "link_clicks",
 }
 IMAGE_MIMES = {"image/png", "image/jpeg", "image/gif"}
+# Videos API: MP4, 75 KB to 500 MB, 3 s to 30 min (duration is checked by LinkedIn).
+VIDEO_MIN_BYTES = 75 * 1024
+VIDEO_MAX_BYTES = 500 * 1024 * 1024
+UPLOAD_TIMEOUT = 300
 
 _RESERVED = re.compile(r"([\\|{}@\[\]()<>#*_~])")
 _HASHTAG = re.compile(r"(?<![\w&/])#([^\W\d_][\w]*)", re.UNICODE)
@@ -523,7 +527,13 @@ class SocialPublisherAccount(models.Model):
             "lifecycleState": "PUBLISHED",
             "isReshareDisabledByAuthor": False,
         }
-        if post.image:
+        if post.has_video:
+            if post.media_state != "ready" or not post.media_external_id:
+                raise UserError(
+                    self.env._("The video of this post is not ready on LinkedIn yet.")
+                )
+            payload["content"] = {"media": {"id": post.media_external_id}}
+        elif post.image:
             payload["content"] = {
                 "media": {
                     "id": self._linkedin_upload_image(token, post),
@@ -538,6 +548,88 @@ class SocialPublisherAccount(models.Model):
             "external_id": urn,
             "url": f"https://www.linkedin.com/feed/update/{urn}/",
         }
+
+    # --- video -------------------------------------------------------------
+
+    def _linkedin_media_limits(self):
+        return {"video_min_bytes": VIDEO_MIN_BYTES, "video_max_bytes": VIDEO_MAX_BYTES}
+
+    def _linkedin_upload_video(self, token, post):
+        """Upload the video in the parts LinkedIn asks for; return its URN."""
+        size = post._video_attachment().file_size
+        init = self._linkedin_request(
+            "POST",
+            "/rest/videos?action=initializeUpload",
+            token=token,
+            json_body={
+                "initializeUploadRequest": {
+                    "owner": self._linkedin_author_urn(),
+                    "fileSizeBytes": size,
+                    "uploadCaptions": False,
+                    "uploadThumbnail": False,
+                }
+            },
+        ).payload["value"]
+        part_ids = []
+        for part in init["uploadInstructions"]:
+            upload = requests.put(
+                part["uploadUrl"],
+                data=post._read_video_range(part["firstByte"], part["lastByte"]),
+                timeout=UPLOAD_TIMEOUT,
+                headers={
+                    "Authorization": f"Bearer {token}",
+                    "Content-Type": "application/octet-stream",
+                },
+            )
+            etag = (upload.headers.get("etag") or "").strip('"')
+            if upload.status_code not in (200, 201) or not etag:
+                raise UserError(
+                    self.env._(
+                        "Video upload failed (%(status)s): %(body)s",
+                        status=upload.status_code,
+                        body=upload.text[:300],
+                    )
+                )
+            part_ids.append(etag)
+        self._linkedin_request(
+            "POST",
+            "/rest/videos?action=finalizeUpload",
+            token=token,
+            json_body={
+                "finalizeUploadRequest": {
+                    "video": init["video"],
+                    "uploadToken": init.get("uploadToken", ""),
+                    "uploadedPartIds": part_ids,
+                }
+            },
+        )
+        return init["video"]
+
+    def _linkedin_prepare_media(self, post):
+        self.ensure_one()
+        token = self.sudo().linkedin_access_token
+        if not token:
+            raise UserError(self.env._("Connect the LinkedIn account first."))
+        if not post.media_external_id:
+            urn = self._linkedin_upload_video(token, post)
+            post._internal_write(
+                {"media_external_id": urn, "media_state": "processing"}
+            )
+        video = self._linkedin_request(
+            "GET",
+            "/rest/videos/" + urllib.parse.quote(post.media_external_id, safe=""),
+            token=token,
+        ).payload
+        status = video.get("status")
+        if status == "AVAILABLE":
+            post._internal_write({"media_state": "ready"})
+        elif status == "PROCESSING_FAILED":
+            raise UserError(
+                self.env._(
+                    "LinkedIn could not process the video: %s",
+                    video.get("processingFailureReason") or status,
+                )
+            )
 
     # --- importing ---------------------------------------------------------
     # Company pages only: LinkedIn restricts listing a member's posts.
