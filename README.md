@@ -58,8 +58,8 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[social_publisher](social_publisher/) | 19.0.1.3.3 |  | Plan, approve, schedule and measure social media posts
-[social_publisher_linkedin](social_publisher_linkedin/) | 19.0.1.3.4 |  | Publish and measure LinkedIn posts via the LinkedIn API
+[social_publisher](social_publisher/) | 19.0.1.4.0 |  | Plan, approve, schedule and measure social media posts
+[social_publisher_linkedin](social_publisher_linkedin/) | 19.0.1.4.0 |  | Publish and measure LinkedIn posts via the LinkedIn API
 
 [//]: # (end addons)
 

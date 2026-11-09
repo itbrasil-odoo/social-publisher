@@ -7,7 +7,14 @@ _logger = logging.getLogger(__name__)
 
 # Changing any of these on an approved post sends it back to draft: approval
 # is given to a specific text, image and destination, not to the record.
-CONTENT_FIELDS = {"body", "image", "image_alt", "account_id", "locked_first_line"}
+CONTENT_FIELDS = {
+    "body",
+    "image",
+    "image_alt",
+    "video",
+    "account_id",
+    "locked_first_line",
+}
 LOCKED_WHEN_PUBLISHED = CONTENT_FIELDS | {"publish_at", "calendar_date"}
 # Calendar colour per state (Odoo colour picker indexes).
 STATE_COLORS = {
@@ -94,6 +101,28 @@ class SocialPublisherPost(models.Model):
     )
     image = fields.Image(max_width=4096, max_height=4096, copy=False)
     image_alt = fields.Char(string="Image Description")
+    video = fields.Binary(
+        attachment=True,
+        copy=False,
+        help="MP4 video published with the post, instead of an image.",
+    )
+    video_filename = fields.Char(copy=False)
+    has_video = fields.Boolean(compute="_compute_has_video", store=True)
+    media_state = fields.Selection(
+        [
+            ("pending", "Waiting for Upload"),
+            ("processing", "Processing"),
+            ("ready", "Ready"),
+            ("failed", "Failed"),
+        ],
+        string="Video Status",
+        readonly=True,
+        copy=False,
+        tracking=True,
+        help="The video is uploaded right after approval; the network then processes "
+        "it, and the post goes out only once it is ready.",
+    )
+    media_external_id = fields.Char(string="Video ID", readonly=True, copy=False)
     locked_first_line = fields.Char(
         string="Required Opening",
         help="When set, the post is only published if its first paragraph matches "
@@ -124,6 +153,20 @@ class SocialPublisherPost(models.Model):
             for key, _label in self._fields["state"].selection
             if key != "publishing" or key in states
         ]
+
+    @api.depends("video")
+    def _compute_has_video(self):
+        # bin_size reads the size, not the content, of a possibly large file
+        for post in self.with_context(bin_size=True):
+            post.has_video = bool(post.video)
+
+    @api.constrains("image", "video")
+    def _check_single_media(self):
+        for post in self.with_context(bin_size=True):
+            if post.image and post.video:
+                raise ValidationError(
+                    self.env._("A post carries either an image or a video, not both.")
+                )
 
     @api.depends("body")
     def _compute_name(self):
@@ -200,6 +243,9 @@ class SocialPublisherPost(models.Model):
                     "here."
                 )
             )
+        if "video" in vals:
+            # a new file needs a new upload
+            vals = dict(vals, media_state=False, media_external_id=False)
         resets = CONTENT_FIELDS.intersection(vals) or (
             "publish_at" in vals and not self._is_manager()
         )
@@ -251,10 +297,92 @@ class SocialPublisherPost(models.Model):
                         post.locked_first_line,
                     )
                 )
+            if post.has_video:
+                post._check_video()
             if post.account_id.connection_state == "disconnected":
                 raise ValidationError(
                     self.env._("Connect the account %s first.", post.account_id.name)
                 )
+
+    # --- video -------------------------------------------------------------
+
+    def _video_attachment(self):
+        self.ensure_one()
+        return (
+            self.env["ir.attachment"]
+            .sudo()
+            .search(
+                [
+                    ("res_model", "=", self._name),
+                    ("res_id", "=", self.id),
+                    ("res_field", "=", "video"),
+                ],
+                limit=1,
+            )
+        )
+
+    def _read_video_range(self, first, last):
+        """Bytes ``first`` to ``last`` (inclusive) of the video, read from disk."""
+        attachment = self._video_attachment()
+        if attachment.store_fname:
+            path = attachment._full_path(attachment.store_fname)
+            with open(path, "rb") as video_file:
+                video_file.seek(first)
+                return video_file.read(last - first + 1)
+        return attachment.raw[first : last + 1]
+
+    def _check_video(self):
+        self.ensure_one()
+        limits = self.account_id._media_limits()
+        network = self.account_id.name
+        if not limits.get("video_max_bytes"):
+            raise ValidationError(
+                self.env._("%s does not accept videos from Odoo.", network)
+            )
+        size = self._video_attachment().file_size
+        mb = 1024 * 1024
+        if not limits.get("video_min_bytes", 0) <= size <= limits["video_max_bytes"]:
+            raise ValidationError(
+                self.env._(
+                    "The video has %(size)s MB; %(network)s accepts %(min)s KB to "
+                    "%(max)s MB.",
+                    size=round(size / mb, 1),
+                    network=network,
+                    min=limits.get("video_min_bytes", 0) // 1024,
+                    max=limits["video_max_bytes"] // mb,
+                )
+            )
+        if self._read_video_range(4, 7) != b"ftyp":
+            raise ValidationError(self.env._("The video must be an MP4 file."))
+
+    def _queue_media(self):
+        """Send approved videos to the network ahead of the publication time."""
+        posts = self.filtered(lambda p: p.has_video and p.media_state != "ready")
+        if posts:
+            posts._internal_write(
+                {"media_state": "pending", "media_external_id": False}
+            )
+            self.env.ref("social_publisher.ir_cron_publish_due")._trigger()
+
+    @api.model
+    def _prepare_media(self, commit=False):
+        posts = self.search(
+            [
+                ("state", "=", "approved"),
+                ("media_state", "in", ("pending", "processing")),
+            ]
+        )
+        for post in posts:
+            try:
+                post.account_id._prepare_media(post)
+            except Exception as error:  # noqa: BLE001 - any failure parks the post
+                _logger.warning(
+                    "Preparing the video of post %s failed", post.id, exc_info=True
+                )
+                post._internal_write({"media_state": "failed"})
+                post._mark_failed(str(error))
+            if commit:
+                self.env["ir.cron"]._commit_progress()
 
     # --- actions -----------------------------------------------------------
 
@@ -266,6 +394,7 @@ class SocialPublisherPost(models.Model):
         drafts = self.filtered(lambda p: p.state in ("draft", "failed"))
         drafts._check_publishable()
         drafts.write({"state": "approved"})
+        drafts._queue_media()
 
     def action_reset_draft(self):
         self.filtered(lambda p: p.state in ("approved", "failed")).write(
@@ -279,6 +408,13 @@ class SocialPublisherPost(models.Model):
             )
         if self.filtered(lambda p: p.state != "approved"):
             raise UserError(self.env._("Only approved posts can be published."))
+        if self.filtered(lambda p: p.has_video and p.media_state != "ready"):
+            raise UserError(
+                self.env._(
+                    "The video is still being uploaded or processed by the network; "
+                    "try again in a few minutes."
+                )
+            )
         self._publish()
 
     def action_refresh_metrics(self):
@@ -309,6 +445,8 @@ class SocialPublisherPost(models.Model):
         for post in self:
             if post.state != "approved":
                 continue
+            if post.has_video and post.media_state != "ready":
+                continue  # the next run checks the video again
             try:
                 post._check_publishable()
             except ValidationError as error:
@@ -347,6 +485,7 @@ class SocialPublisherPost(models.Model):
 
     @api.model
     def _cron_publish_due(self):
+        self._prepare_media(commit=True)
         due = self.search(
             [
                 ("state", "=", "approved"),

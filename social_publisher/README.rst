@@ -59,6 +59,10 @@ To configure this module, you need to:
   account with every company.
 - Optionally, create tags in *Social > Configuration > Tags* to classify
   posts by topic.
+- Odoo accepts uploads of up to 128 MB by default. To attach larger
+  videos, set the system parameter ``web.max_file_upload_size`` (in
+  bytes) and make sure the Odoo workers have enough memory for the
+  upload.
 - On each account, *Metrics Window (days)* limits the daily metrics sync
   to recent posts, which keeps the network's daily API limits in check.
 
@@ -68,12 +72,17 @@ Usage
 To use this module, you need to:
 
 - Go to *Social > Posts* and create a post: write the text exactly as it
-  should appear, pick the account, add tags and, optionally, an image.
+  should appear, pick the account, add tags and, optionally, an image or
+  a video.
 - Set *Scheduled For*. A manager clicks **Approve**; approved posts are
   published automatically once that time has passed. **Publish Now**
   skips the wait.
-- Editing the text, the image or the account of an approved post sends
-  it back to draft, so the approval always matches what goes out.
+- A video is uploaded to the network right after approval. The network
+  then processes it, and the post goes out only once the video is
+  *Ready*, even if its scheduled time has passed.
+- Editing the text, the image, the video or the account of an approved
+  post sends it back to draft, so the approval always matches what goes
+  out.
 - If the network refuses a post, it becomes *Failed* with the reason on
   the form, and it is not retried until someone sends it back to draft
   and approves it again.
@@ -95,8 +104,8 @@ Known issues / Roadmap
 ======================
 
 - Only LinkedIn has a provider module so far.
-- Posts carry a single image; videos, documents and carousels are not
-  supported.
+- Posts carry a single image or a single video; documents and carousels
+  are not supported.
 
 Bug Tracker
 ===========

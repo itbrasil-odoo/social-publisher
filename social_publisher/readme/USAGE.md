@@ -1,11 +1,15 @@
 To use this module, you need to:
 
 - Go to *Social > Posts* and create a post: write the text exactly as it
-  should appear, pick the account, add tags and, optionally, an image.
+  should appear, pick the account, add tags and, optionally, an image or a
+  video.
 - Set *Scheduled For*. A manager clicks **Approve**; approved posts are
   published automatically once that time has passed. **Publish Now** skips the
   wait.
-- Editing the text, the image or the account of an approved post sends it
+- A video is uploaded to the network right after approval. The network then
+  processes it, and the post goes out only once the video is *Ready*, even if
+  its scheduled time has passed.
+- Editing the text, the image, the video or the account of an approved post sends it
   back to draft, so the approval always matches what goes out.
 - If the network refuses a post, it becomes *Failed* with the reason on the
   form, and it is not retried until someone sends it back to draft and

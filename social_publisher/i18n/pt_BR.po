@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 01:37+0000\n"
-"PO-Revision-Date: 2026-10-29 01:37+0000\n"
+"POT-Creation-Date: 2026-11-09 21:35+0000\n"
+"PO-Revision-Date: 2026-11-09 21:35+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "%s does not accept videos from Odoo."
+msgstr "%s não aceita vídeos enviados pelo Odoo."
 
 #. module: social_publisher
 #. odoo-python
@@ -33,8 +39,19 @@ msgstr "<i class=\"fa fa-eye\" title=\"Impressões\"/>"
 
 #. module: social_publisher
 #: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_kanban
+msgid "<i class=\"fa fa-film\" title=\"Video\"/>"
+msgstr "<i class=\"fa fa-film\" title=\"Vídeo\"/>"
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_kanban
 msgid "<i class=\"fa fa-thumbs-up ms-2\" title=\"Reactions\"/>"
 msgstr "<i class=\"fa fa-thumbs-up ms-2\" title=\"Reações\"/>"
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "A post carries either an image or a video, not both."
+msgstr "Um post leva uma imagem ou um vídeo, não os dois."
 
 #. module: social_publisher
 #. odoo-python
@@ -336,6 +353,7 @@ msgid "External"
 msgstr "ID externo"
 
 #. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_post__media_state__failed
 #: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_post__state__failed
 #: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
 msgid "Failed"
@@ -381,6 +399,11 @@ msgstr "Referência livre, como o número do kit ou a fórmula de gancho usada."
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__has_message
 msgid "Has Message"
 msgstr "Tem mensagem"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__has_video
+msgid "Has Video"
+msgstr "Tem vídeo"
 
 #. module: social_publisher
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_account__id
@@ -494,6 +517,11 @@ msgstr "Link"
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__link_clicks
 msgid "Link Clicks"
 msgstr "Cliques no link"
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__video
+msgid "MP4 video published with the post, instead of an image."
+msgstr "Vídeo MP4 publicado com o post, no lugar de uma imagem."
 
 #. module: social_publisher
 #: model:res.groups,name:social_publisher.group_social_publisher_manager
@@ -707,6 +735,11 @@ msgid "Posts"
 msgstr "Posts"
 
 #. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_post__media_state__processing
+msgid "Processing"
+msgstr "Processando"
+
+#. module: social_publisher
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric__profile_views
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_metric_mixin__profile_views
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__profile_views
@@ -786,6 +819,11 @@ msgstr "Alcance"
 #: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__reactions
 msgid "Reactions"
 msgstr "Reações"
+
+#. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_post__media_state__ready
+msgid "Ready"
+msgstr "Pronto"
 
 #. module: social_publisher
 #: model:ir.model.fields,help:social_publisher.field_social_publisher_account__user_id
@@ -1040,6 +1078,34 @@ msgstr "O post está vazio."
 
 #. module: social_publisher
 #. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid ""
+"The video has %(size)s MB; %(network)s accepts %(min)s KB to %(max)s MB."
+msgstr "O vídeo tem %(size)s MB; %(network)s aceita de %(min)s KB a %(max)s MB."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid ""
+"The video is still being uploaded or processed by the network; try again in "
+"a few minutes."
+msgstr "O vídeo ainda está sendo enviado ou processado pela rede; tente de novo em alguns minutos."
+
+#. module: social_publisher
+#: model:ir.model.fields,help:social_publisher.field_social_publisher_post__media_state
+msgid ""
+"The video is uploaded right after approval; the network then processes it, "
+"and the post goes out only once it is ready."
+msgstr "O vídeo é enviado logo depois da aprovação; a rede o processa, e o post só sai quando ele estiver pronto."
+
+#. module: social_publisher
+#. odoo-python
+#: code:addons/social_publisher/models/social_publisher_post.py:0
+msgid "The video must be an MP4 file."
+msgstr "O vídeo precisa ser um arquivo MP4."
+
+#. module: social_publisher
+#. odoo-python
 #: code:addons/social_publisher/models/social_publisher_account.py:0
 msgid "This account cannot list its posts on the network."
 msgstr "Esta conta não consegue listar seus posts na rede."
@@ -1056,9 +1122,34 @@ msgid "Type of the exception activity on record."
 msgstr "Tipo da atividade de exceção no registro."
 
 #. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__video
+msgid "Video"
+msgstr "Vídeo"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__video_filename
+msgid "Video Filename"
+msgstr "Nome do arquivo de vídeo"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__media_external_id
+msgid "Video ID"
+msgstr "ID do vídeo"
+
+#. module: social_publisher
+#: model:ir.model.fields,field_description:social_publisher.field_social_publisher_post__media_state
+msgid "Video Status"
+msgstr "Status do vídeo"
+
+#. module: social_publisher
 #: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_form
 msgid "View Post"
 msgstr "Ver post"
+
+#. module: social_publisher
+#: model:ir.model.fields.selection,name:social_publisher.selection__social_publisher_post__media_state__pending
+msgid "Waiting for Upload"
+msgstr "Aguardando envio"
 
 #. module: social_publisher
 #: model:ir.model.fields,help:social_publisher.field_social_publisher_post__locked_first_line
@@ -1071,6 +1162,11 @@ msgstr "Quando preenchido, o post só é publicado se o primeiro parágrafo for 
 #: model:ir.model.fields,help:social_publisher.field_social_publisher_metric__period_days
 msgid "Window covered by an account snapshot, in days."
 msgstr "Período coberto por um registro da conta, em dias."
+
+#. module: social_publisher
+#: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search
+msgid "With Video"
+msgstr "Com vídeo"
 
 #. module: social_publisher
 #: model_terms:ir.ui.view,arch_db:social_publisher.social_publisher_post_view_search

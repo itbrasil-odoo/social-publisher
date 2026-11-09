@@ -62,6 +62,7 @@
                     <field
                         name="image"
                         widget="image"
+                        invisible="has_video"
                         readonly="state in ('published', 'publishing')"
                         class="oe_avatar"
                         options="{'size': [180, 180]}"
@@ -106,6 +107,22 @@
                                 name="image_alt"
                                 invisible="not image"
                                 readonly="state in ('published', 'publishing')"
+                            />
+                            <field name="has_video" invisible="1" />
+                            <field name="video_filename" invisible="1" />
+                            <field
+                                name="video"
+                                filename="video_filename"
+                                invisible="image"
+                                readonly="state in ('published', 'publishing')"
+                            />
+                            <field
+                                name="media_state"
+                                widget="badge"
+                                invisible="not has_video or not media_state"
+                                decoration-info="media_state in ('pending', 'processing')"
+                                decoration-success="media_state == 'ready'"
+                                decoration-danger="media_state == 'failed'"
                             />
                         </group>
                     </group>
@@ -232,6 +249,7 @@
             >
                 <field name="state" />
                 <field name="image" />
+                <field name="has_video" />
                 <templates>
                     <t t-name="card" class="flex-row">
                         <aside t-if="record.image.raw_value" class="me-2">
@@ -244,7 +262,15 @@
                         </aside>
                         <main class="flex-grow-1">
                             <field name="name" class="fw-bold" />
-                            <field name="reference" class="text-muted small" />
+                            <div class="d-flex gap-2 align-items-center">
+                                <field name="reference" class="text-muted small" />
+                                <span
+                                    t-if="record.has_video.raw_value"
+                                    class="text-muted small"
+                                >
+                                    <i class="fa fa-film" title="Video" />
+                                </span>
+                            </div>
                             <field
                                 name="tag_ids"
                                 widget="many2many_tags"
@@ -397,6 +423,11 @@
                     name="filter_no_tag"
                     string="Without Tags"
                     domain="[('tag_ids', '=', False)]"
+                />
+                <filter
+                    name="filter_video"
+                    string="With Video"
+                    domain="[('has_video', '=', True)]"
                 />
                 <separator />
                 <filter

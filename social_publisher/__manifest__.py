@@ -1,6 +1,6 @@
 {
     "name": "Social Publisher",
-    "version": "19.0.1.3.3",
+    "version": "19.0.1.4.0",
     "category": "Marketing/Social Marketing",
     "summary": "Plan, approve, schedule and measure social media posts",
     "license": "LGPL-3",

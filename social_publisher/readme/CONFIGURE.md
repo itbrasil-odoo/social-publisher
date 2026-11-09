@@ -11,5 +11,8 @@ To configure this module, you need to:
   account with every company.
 - Optionally, create tags in *Social > Configuration > Tags* to classify
   posts by topic.
+- Odoo accepts uploads of up to 128 MB by default. To attach larger videos,
+  set the system parameter `web.max_file_upload_size` (in bytes) and make sure
+  the Odoo workers have enough memory for the upload.
 - On each account, *Metrics Window (days)* limits the daily metrics sync to
   recent posts, which keeps the network's daily API limits in check.

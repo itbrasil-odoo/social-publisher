@@ -157,6 +157,14 @@ class SocialPublisherAccount(models.Model):
         """Return a dict keyed by METRIC_FIELDS for one post or the account."""
         return self._call_provider("fetch_metrics", post=post, days=days)
 
+    def _media_limits(self):
+        """``{"video_min_bytes": ..., "video_max_bytes": ...}``; empty: no video."""
+        return self._call_provider("media_limits", default={})
+
+    def _prepare_media(self, post):
+        """Upload ``post``'s video, or check its processing, and set its state."""
+        return self._call_provider("prepare_media", post)
+
     def _can_fetch_metrics(self):
         return self._call_provider("can_fetch_metrics", default=False)
 
